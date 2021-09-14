@@ -9,11 +9,21 @@ class Crossover:
     """
     Implements different crossover variations
 
+    IMPORTANT: offspring_count cannot exceed population count
 
+    Methods
+    -------
+    basic : basic crossover method
     """
 
     def __init__(self, offspring_ratio):
-
+        """
+        Initializes Crossover
+        
+        Params
+        ------
+        offspring_ratio : ???
+        """
         self.offspring_ratio = 1.5
 
     @staticmethod
