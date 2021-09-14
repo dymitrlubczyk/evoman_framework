@@ -1,6 +1,8 @@
 import sys
 sys.path.insert(0, 'evoman')
+sys.path.insert(0, 'other')
 
+from experiment import Experiment
 from environment import Environment
 from demo_controller import player_controller
 import numpy as np
@@ -8,6 +10,7 @@ import os
 
 
 class EvolutionaryAlgorithm:
+    # This
     def __init__(self,
                  _experiment_name,
                  _population_size,
@@ -15,6 +18,7 @@ class EvolutionaryAlgorithm:
                  _selection,
                  _crossover,
                  _mutation,
+                 _mutation_selection,
                  _insertion):
 
         self.experiment_name = _experiment_name
@@ -23,53 +27,60 @@ class EvolutionaryAlgorithm:
         self.selection = _selection
         self.crossover = _crossover
         self.mutation = _mutation
+        self.mutation_selection = _mutation_selection
         self.insertion = _insertion
-        self.initialiseEnvironment()
+        self.initialise_environment()
 
-    def findSolution(self):
-        self.initialisePopulation()
-        # exp = Experiment()
+    def run(self):
+        experiment = Experiment()
+        self.initialise_population()
+        self.best_fitness = float('-inf')
         generation = 1
-        best, best_fitness = self.population[0], self.getFitness()[0]
-        
+
         while(generation <= self.generations_number):
-            fitness = self.getFitness() # Fitness of the generation; sum array to get total
-            
-            for i in range(self.population.shape[0]):
-                if fitness[i] > best_fitness:
-                    best, best_fitness = self.population[i], fitness[i]
-
-            # Selects candidates for crossover & mutation
-            selected_individuals = self.selection(fitness, self.population)
-            newcomers = self.crossover(selected_individuals)
-            
-
-            # Create next generation
-            self.population = self.insertion(
-                fitness, self.population, newcomers)
-            
-            
-            #TODO: call plot_data of Experiment() to calculate average fitness of current generation
-            # store_data(generation, fitness, best)
-
-            print(f'Current best: {best}, {best_fitness}')
             generation += 1
+            # fitness is an array of fitnesses of individuals.
+            # fitness[i] is a fitness of population[i]
+            fitness = self.get_fitness()
 
-        # STORE BEST SOLUTION
+            # Checks if best candidate appeared in the newest generation
+            self.update_best(fitness)
 
-        return self.selection(fitness, self.population)[0]
+            # Selects candidates for crossover
+            parents = self.selection(fitness, self.population)
+            offspring = self.crossover(parents)
 
-    def getFitness(self):
+            # Selects candidates for mutation
+            selected = self.mutation_selection(parents, offspring, self.population)
+            mutants = self.mutation(selected)
+
+            # Add mutants to offspring, insert them to new generation
+            offspring = np.concatenate((offspring, mutants))
+            self.population = self.insertion(fitness, self.population, offspring)
+
+            # Passes fitness are to experiment object to be stored
+            experiment.store_data(fitness)
+            print(f'Current best fitness: {self.best_fitness}')
+
+        experiment.save_solution(self.best, self.best_fitness, self.experiment_name)
+        experiment.plot_data()
+        return self.best, self.best_fitness
+
+    def get_fitness(self):
         fitness = np.array([])
 
         for i in range(self.population_size):
-            # REPLACE WITH CUSTOM FITNESS FUNCTION
-            f, pl, el, t = self.env.play(pcont=self.population[i]) # returns fitness of pcontroller at idx i
+            f, pl, el, t = self.env.play(pcont=self.population[i])
             fitness = np.append(fitness, f)
 
         return fitness
 
-    def initialisePopulation(self):
+    def update_best(self, fitness):
+        for i in range(self.population.shape[0]):
+            if fitness[i] > self.best_fitness:
+                self.best, self.best_fitness = self.population[i], fitness[i]
+
+    def initialise_population(self):
         genome_length = 5 * (self.env.get_num_sensors() + 1)
         self.population = np.random.uniform(-1, 1,
                                             self.population_size * genome_length,)
@@ -77,7 +88,7 @@ class EvolutionaryAlgorithm:
         self.population = self.population.reshape(
             self.population_size, genome_length)
 
-    def initialiseEnvironment(self):
+    def initialise_environment(self):
         os.environ["SDL_VIDEODRIVER"] = "dummy"
 
         if not os.path.exists(self.experiment_name):
@@ -90,75 +101,3 @@ class EvolutionaryAlgorithm:
                                enemymode="static",
                                level=2,
                                speed="fastest")
-
-
-
-class ActivationFunction:
-    """
-    Class which implements various activation functions.
-
-    Methods
-    -------
-    sigmoid : return value between 0 & 1 (values towards -∞ become 0; values towards +∞ become 1)
-    tanh : return value between -1 & 1 (valuable if network layers > 1)
-    Gaussian : return value between 0 & 1 (probability distribution)
-    """
-    def sigmoid(x):
-        pass
-
-    def tanh(x):
-        pass
-
-    def Gaussian(x):
-        pass
-
-class FitnessFunction:
-
-    def default_fitness(n_pop, env, pop):
-        """
-        Implements:
-        f = 0.9 · (100 - e) + 0.1 * p - log t
-            - e = enemy energy
-            - p = player energy
-            - t = time
-
-        Params
-        ------
-        n_pop : population size
-        env : environment object
-        pop : population of solutions/genomes
-        """
-        fitness = np.array([])
-        for i in range(n_pop):
-            f, pl, el, t = env.play(pcont=pop[i])
-            fitness = np.append(fitness, f)
-        
-        pass
-
-
-class CrossOver:
-    """
-    Class which implements crossover methods
-
-
-    """
-
-    def crossover(self):
-        pass
-
-
-class Selection:
-    """
-    Class which implements selection methods.
-
-
-    
-    """
-
-    def tournament_selection(pop, fitness, k):
-        pass
-
-    def flip_selection(pop, fitness):
-        i = np.flip(np.argsort(fitness), axis=None)
-
-        return pop[i[:(i.size // 5)], :]

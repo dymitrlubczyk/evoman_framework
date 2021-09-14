@@ -3,6 +3,7 @@ Handles experiment data
 
 """
 
+
 class Experiment:
     """
     Class used to represent the experiment.
@@ -18,7 +19,7 @@ class Experiment:
     save_best_solutions : saves best solution from an experimental run
     """
 
-    def store_data():
+    def store_data(self, fitness):
         """
         Stores the data from each generation
         Also stores data after all generations --> HOW?
@@ -26,13 +27,12 @@ class Experiment:
 
         """
         pass
-    
 
-    def plot_data():
+    def plot_data(self):
         """
         Uses matplotlib to visualize data collected during the experiment: not sure about the idea of "current" vs. "total" data.
         Use of parameters will depend on time when we decide to plot the data - after all generations have passed? NO - need to plot mean for each generation.
-        
+
         Params
         ------
         n_gen : number of generations
@@ -56,5 +56,5 @@ class Experiment:
 
         pass
 
-        def save_best_solution():
-            pass
+    def save_solution(self, solution, solution_fitness, experiment_name):
+        pass
