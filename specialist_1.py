@@ -17,9 +17,13 @@ from mutation_selection import MutationSelection
 Mutation.mutation_ratio = 0.3
 MutationSelection.selction_ratio = 0.5
 
+#HYPERPARAMS
+n_pop = 10
+n_gen = 5
+
 evolutionary_algorithm = EvolutionaryAlgorithm(_experiment_name='solution_1',
-                                               _population_size=100,
-                                               _generations_number=20,
+                                               _population_size=n_pop,
+                                               _generations_number=n_gen,
                                                _selection=Selection.basic,
                                                _crossover=Crossover.basic,
                                                _mutation=Mutation.basic,

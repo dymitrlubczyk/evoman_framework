@@ -16,18 +16,10 @@ class Crossover:
     basic : basic crossover method
     """
 
-    def __init__(self, offspring_ratio):
-        """
-        Initializes Crossover
-        
-        Params
-        ------
-        offspring_ratio : ???
-        """
-        self.offspring_ratio = 1.5
+    
 
     @staticmethod
-    def basic(self, parents):
+    def basic(parents):
         """
         Implements basic crossover method by using the offspring_ratio times the number of parents children
         
@@ -36,12 +28,12 @@ class Crossover:
         ------
         parents : list of 2 parents for the offspring
         """
-
+        offspring_ratio = 1.5
         parents_count = parents.shape[0]
         genome_length = parents.shape[1]
 
         offspring = np.array([])
-        offspring_count = round(self.offspring_ratio * parents_count)
+        offspring_count = round(offspring_ratio * parents_count)
 
         for i in range(offspring_count):
             mother_index = np.random.randint(parents_count)

@@ -32,7 +32,8 @@ class EvolutionaryAlgorithm:
         self.initialise_environment()
 
     def run(self):
-        experiment = Experiment()
+        generation_fitness = np.array([])
+        experiment = Experiment(generation_fitness)
         self.initialise_population()
         self.best_fitness = float('-inf')
         generation = 1
@@ -59,7 +60,7 @@ class EvolutionaryAlgorithm:
             self.population = self.insertion(fitness, self.population, offspring)
 
             # Passes fitness are to experiment object to be stored
-            experiment.store_data(fitness)
+            experiment.store_data(self.experiment_name, generation, fitness)
             print(f'Current best fitness: {self.best_fitness}')
 
         experiment.save_solution(self.best, self.best_fitness, self.experiment_name)
