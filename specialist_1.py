@@ -13,13 +13,17 @@ from mutation_selection import MutationSelection
 # Mutation.mutation_ratio - says how many % of genes will be mutated, default 0.1
 # MutationSelection.selection_ratio - says how many % of given group should be selected, default 0.3
 
+
+Mutation.mutation_ratio = 0.3
+MutationSelection.selction_ratio = 0.5
+
 evolutionary_algorithm = EvolutionaryAlgorithm(_experiment_name='solution_1',
-                                               _population_size=20,
-                                               _generations_number=50,
+                                               _population_size=100,
+                                               _generations_number=20,
                                                _selection=Selection.basic,
                                                _crossover=Crossover.basic,
                                                _mutation=Mutation.basic,
-                                               _mutation_selection=MutationSelection.only_paretns,
+                                               _mutation_selection=MutationSelection.only_offspring,
                                                _insertion=Insertion.basic)
 
 

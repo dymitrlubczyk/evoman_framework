@@ -3,8 +3,11 @@ Handles experiment data
 
 """
 
+import numpy as np
+
 
 class Experiment:
+    generation_fitness = np.array([])
     """
     Class used to represent the experiment.
 
@@ -26,7 +29,10 @@ class Experiment:
 
 
         """
-        pass
+        average_fitness = np.average(fitness)
+        self.generation_fitness = np.append(self.generation_fitness, average_fitness)
+
+        print(f'Population average fitness: {average_fitness}')
 
     def plot_data(self):
         """
@@ -53,7 +59,6 @@ class Experiment:
         """
         # 1. Store the data
         # 2. Plot the data
-
         pass
 
     def save_solution(self, solution, solution_fitness, experiment_name):
