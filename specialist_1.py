@@ -22,14 +22,15 @@ MutationSelection.selction_ratio = 0.5
 population_size = 10
 generations_number = 5
 
-evolutionary_algorithm = EvolutionaryAlgorithm(_experiment_name='solution_1',
-                                               _population_size=population_size,
-                                               _generations_number=generations_number,
-                                               _selection=Selection.basic,
-                                               _crossover=Crossover.basic,
-                                               _mutation=Mutation.basic,
-                                               _mutation_selection=MutationSelection.only_offspring,
-                                               _insertion=Insertion.basic)
+def run_algorithm():
+    evolutionary_algorithm = EvolutionaryAlgorithm(_experiment_name='solution_1',
+                                                _population_size=population_size,
+                                                _generations_number=generations_number,
+                                                _selection=Selection.basic,
+                                                _crossover=Crossover.basic,
+                                                _mutation=Mutation.basic,
+                                                _mutation_selection=MutationSelection.only_offspring,
+                                                _insertion=Insertion.basic)
 
 
 Experiment(evolutionary_algorithm).run_experiment(10)
