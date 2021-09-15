@@ -4,7 +4,6 @@ from selection import Selection
 from insertion import Insertion
 from mutation import Mutation
 from mutation_selection import MutationSelection
-from experiment import Experiment
 
 
 # Before you run evolutionary algorithm you can adjust following variables:
@@ -18,27 +17,19 @@ from experiment import Experiment
 Mutation.mutation_ratio = 0.3
 MutationSelection.selction_ratio = 0.5
 
-#HYPERPARAMS
-n_pop = 10
-n_gen = 2
-experiments = 2
-experiment_name = 'solution_1'
+# HYPERPARAMS
+population_size = 10
+generations_number = 5
 
-for runs in range(experiments):
-
-    evolutionary_algorithm = EvolutionaryAlgorithm(_experiment_name= experiment_name + '-run_' + str(runs),
-                                                _population_size=n_pop,
-                                                _generations_number=n_gen,
-                                                _selection=Selection.basic,
-                                                _crossover=Crossover.basic,
-                                                _mutation=Mutation.basic,
-                                                _mutation_selection=MutationSelection.only_offspring,
-                                                _insertion=Insertion.basic)
+evolutionary_algorithm = EvolutionaryAlgorithm(_experiment_name='solution_1',
+                                               _population_size=population_size,
+                                               _generations_number=generations_number,
+                                               _selection=Selection.basic,
+                                               _crossover=Crossover.basic,
+                                               _mutation=Mutation.basic,
+                                               _mutation_selection=MutationSelection.only_offspring,
+                                               _insertion=Insertion.basic)
 
 
-    best, best_fitness = evolutionary_algorithm.run()
-    print(f'Best solution set: \n {best} \n Fitness: {best_fitness}')
-
-
-# PLOT DATA AFTER n RUNS
-#experiment.line_plot_experiment(evolutionary_algorithm.experiment_name)
+best, best_fitness = evolutionary_algorithm.run()
+print(best)

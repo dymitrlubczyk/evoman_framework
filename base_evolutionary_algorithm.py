@@ -2,17 +2,14 @@ import sys
 sys.path.insert(0, 'evoman')
 sys.path.insert(0, 'other')
 
-from experiment import Experiment
+from experiment import DEBUG, Experiment
 from environment import Environment
 from demo_controller import player_controller
 import numpy as np
 import os
 
 
-DEBUG = True
-
 class EvolutionaryAlgorithm:
-    # This
     def __init__(self,
                  _experiment_name,
                  _population_size,
@@ -22,7 +19,6 @@ class EvolutionaryAlgorithm:
                  _mutation,
                  _mutation_selection,
                  _insertion):
-
         self.experiment_name = _experiment_name
         self.population_size = _population_size
         self.generations_number = _generations_number
@@ -33,19 +29,16 @@ class EvolutionaryAlgorithm:
         self.insertion = _insertion
         self.initialise_environment()
 
-
     def run(self):
-        experiment = Experiment(self.experiment_name)
+        experiment = Experiment()
         self.initialise_population()
         self.best_fitness = float('-inf')
-        generation_list = np.array([], dtype=int)
         generation = 1
 
         while(generation <= self.generations_number):
-            
+            generation += 1
             # fitness is an array of fitnesses of individuals.
             # fitness[i] is a fitness of population[i]
-            # FITNESS
             fitness = self.get_fitness()
 
             # Checks if best candidate appeared in the newest generation
@@ -65,29 +58,19 @@ class EvolutionaryAlgorithm:
 
             # STORE DATA
             experiment.store_data_generation(generation, fitness)
-            if DEBUG: print(f'Current best fitness: {self.best_fitness}')
-            generation_list = np.append(generation_list, generation) # adds generation number to generation list
-    
+            if DEBUG:
+                print(f'Current best fitness: {self.best_fitness}')
+
             # INCREMENT GENERATION
             generation += 1
+            # STORE SOLUTION PER RUN
+            print(f'SAVING SOLUTION FOR GENERATION {generation}...')
+            experiment.save_solution(self.best, self.best_fitness, fitness)
 
-        if DEBUG: print(f'Generations : {generation_list}')
-        # STORE SOLUTION PER RUN
-        print(f'SAVING SOLUTION FOR GENERATION {generation}...')
-        experiment.save_solution(self.best, self.best_fitness, fitness)
-        
-        if DEBUG: experiment.line_plot_generation(self.experiment_name, generation_list)
+            if DEBUG:
+                experiment.line_plot_generation(self.experiment_name, generation)
 
-        
         return self.best, self.best_fitness
-
-
-    def run_experiment(self):
-        experiment = Experiment()
-        self.run()
-        experiment.store_data(self.experiment_name, fitness)
-        
-
 
     def get_fitness(self):
         fitness = np.array([])
@@ -98,7 +81,6 @@ class EvolutionaryAlgorithm:
 
         return fitness
 
-
     def update_best(self, fitness):
         for i in range(self.population.shape[0]):
             if fitness[i] > self.best_fitness:
@@ -106,12 +88,8 @@ class EvolutionaryAlgorithm:
 
     def initialise_population(self):
         genome_length = 5 * (self.env.get_num_sensors() + 1)
-        self.population = np.random.uniform(-1, 1,
-                                            self.population_size * genome_length,)
-
-        self.population = self.population.reshape(
-            self.population_size, genome_length)
-
+        self.population = np.random.uniform(-1, 1, self.population_size * genome_length,)
+        self.population = self.population.reshape(self.population_size, genome_length)
 
     def initialise_environment(self):
         os.environ["SDL_VIDEODRIVER"] = "dummy"
@@ -120,7 +98,7 @@ class EvolutionaryAlgorithm:
             os.makedirs(self.experiment_name)
 
         self.env = Environment(experiment_name=self.experiment_name,
-                               enemies=[4],
+                               enemies=[1],
                                playermode="ai",
                                player_controller=player_controller(0),
                                enemymode="static",
