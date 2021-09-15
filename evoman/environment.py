@@ -36,8 +36,8 @@ class Environment(object):
                  randomini="no",              # yes or no
                  sound="off",                  # on or off
                  contacthurt="player",        # player or enemy
-                 logs="on",                   # on or off
-                 savelogs="yes",              # yes or no
+                 logs="off",                   # on or off
+                 savelogs="no",              # yes or no
                  clockprec="low",
                  timeexpire=3000,             # integer
                  overturetime=100,            # integer
@@ -168,7 +168,11 @@ class Environment(object):
 
 
     def print_logs(self, msg):
+<<<<<<< Updated upstream
         if self.logs == "on":
+=======
+        if self.logs == "on": # TURN BACK ON
+>>>>>>> Stashed changes
             print('\n'+msg) # prints log messages to screen
 
             if self.savelogs == "yes": # prints log messages to file
