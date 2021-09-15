@@ -1,3 +1,4 @@
+from experiment import Experiment
 from base_evolutionary_algorithm import EvolutionaryAlgorithm
 from crossover import Crossover
 from selection import Selection
@@ -31,5 +32,4 @@ evolutionary_algorithm = EvolutionaryAlgorithm(_experiment_name='solution_1',
                                                _insertion=Insertion.basic)
 
 
-best, best_fitness = evolutionary_algorithm.run()
-print(best)
+Experiment(evolutionary_algorithm).run_experiment(10)

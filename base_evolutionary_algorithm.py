@@ -2,11 +2,12 @@ import sys
 sys.path.insert(0, 'evoman')
 sys.path.insert(0, 'other')
 
-from experiment import DEBUG, Experiment
 from environment import Environment
 from demo_controller import player_controller
 import numpy as np
 import os
+
+DEBUG = True
 
 
 class EvolutionaryAlgorithm:
@@ -30,9 +31,10 @@ class EvolutionaryAlgorithm:
         self.initialise_environment()
 
     def run(self):
-        experiment = Experiment()
         self.initialise_population()
         self.best_fitness = float('-inf')
+        fitnesses = np.array([])
+
         generation = 1
 
         while(generation <= self.generations_number):
@@ -56,21 +58,14 @@ class EvolutionaryAlgorithm:
             offspring = np.concatenate((offspring, mutants))
             self.population = self.insertion(fitness, self.population, offspring)
 
-            # STORE DATA
-            experiment.store_data_generation(generation, fitness)
             if DEBUG:
                 print(f'Current best fitness: {self.best_fitness}')
 
             # INCREMENT GENERATION
             generation += 1
-            # STORE SOLUTION PER RUN
-            print(f'SAVING SOLUTION FOR GENERATION {generation}...')
-            experiment.save_solution(self.best, self.best_fitness, fitness)
+            fitnesses = np.append(fitnesses, np.average(fitness))
 
-            if DEBUG:
-                experiment.line_plot_generation(self.experiment_name, generation)
-
-        return self.best, self.best_fitness
+        return self.best, self.best_fitness, fitnesses
 
     def get_fitness(self):
         fitness = np.array([])
