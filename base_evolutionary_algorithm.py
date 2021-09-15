@@ -10,7 +10,6 @@ import os
 
 
 class EvolutionaryAlgorithm:
-    # This
     def __init__(self,
                  _experiment_name,
                  _population_size,
@@ -59,7 +58,7 @@ class EvolutionaryAlgorithm:
             self.population = self.insertion(fitness, self.population, offspring)
 
             # Passes fitness are to experiment object to be stored
-            experiment.store_data(self.experiment_name, generation, fitness)
+            experiment.store_data(self.experiment_name, fitness)
             print(f'Current best fitness: {self.best_fitness}')
 
         experiment.save_solution(self.best, self.best_fitness, self.experiment_name)
@@ -82,11 +81,8 @@ class EvolutionaryAlgorithm:
 
     def initialise_population(self):
         genome_length = 5 * (self.env.get_num_sensors() + 1)
-        self.population = np.random.uniform(-1, 1,
-                                            self.population_size * genome_length,)
-
-        self.population = self.population.reshape(
-            self.population_size, genome_length)
+        self.population = np.random.uniform(-1, 1, self.population_size * genome_length,)
+        self.population = self.population.reshape(self.population_size, genome_length)
 
     def initialise_environment(self):
         os.environ["SDL_VIDEODRIVER"] = "dummy"
