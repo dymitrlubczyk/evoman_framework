@@ -32,8 +32,7 @@ class EvolutionaryAlgorithm:
         self.initialise_environment()
 
     def run(self):
-        generation_fitness = np.array([])
-        experiment = Experiment(generation_fitness)
+        experiment = Experiment()
         self.initialise_population()
         self.best_fitness = float('-inf')
         generation = 1

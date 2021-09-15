@@ -6,6 +6,7 @@ Handles experiment data
 import numpy as np
 import csv
 
+
 class Experiment:
 
     """
@@ -22,8 +23,8 @@ class Experiment:
     save_best_solutions : saves best solution from an experimental run
     """
 
-    def __init__(self, generation_fitness):
-       self.generation_fitness = generation_fitness
+    def __init__(self):
+        self.generation_fitness = np.array([])
 
     def store_data(self, experiment_name, fitness):
         """
@@ -35,17 +36,16 @@ class Experiment:
         experiment_name : name of the experiment
         fitness : list of fitness values of the current generation
         """
-        
+
         # Calculates average fitness for a given generation
         average_fitness = np.average(fitness)
-        self.generation_fitness = np.append(self.generation_fitness, average_fitness) # Add average_fitness to generation_fitness
-
+        # Add average_fitness to generation_fitness
+        self.generation_fitness = np.append(self.generation_fitness, average_fitness)
 
         # Add generation_fitness value to .csv file with a. generation number, b. generation_fitness
         with open(experiment_name + '_generation_fitness.csv', 'w') as new_file:
             csv_writer = csv.writer(new_file, delimiter=',')
-            csv_writer.writerow(self.generation_fitness) # add generation_fitness to .csv file
-            
+            csv_writer.writerow(self.generation_fitness)  # add generation_fitness to .csv file
 
         print(f'Population average fitness: {average_fitness}')
 
@@ -74,7 +74,6 @@ class Experiment:
         """
         # 1. Store the data
         # 2. Plot the data
-
 
         pass
 
