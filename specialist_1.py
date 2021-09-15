@@ -33,4 +33,4 @@ def run_algorithm():
                                                 _insertion=Insertion.basic)
 
 
-Experiment(evolutionary_algorithm).run_experiment(10)
+    Experiment(evolutionary_algorithm).run_experiment(10)
