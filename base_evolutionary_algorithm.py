@@ -33,7 +33,7 @@ class EvolutionaryAlgorithm:
     def run(self):
         self.initialise_population()
         self.best_fitness = float('-inf')
-        fitnesses = np.array([])
+        avg_generation_fitness = np.array([])
 
         generation = 1
 
@@ -59,7 +59,9 @@ class EvolutionaryAlgorithm:
             self.population = self.insertion(fitness, self.population, offspring)
 
             if DEBUG:
-                print(f'Current best fitness: {self.best_fitness}')
+                print(f'Population shape: {self.population.shape}')
+                print(f'Current Generation {generation}; Best fitness: {self.best_fitness}')
+                print(f'Best Solution: {self.best, self.best.shape}')
 
             # INCREMENT GENERATION
             generation += 1
@@ -85,7 +87,7 @@ class EvolutionaryAlgorithm:
 
     def initialise_population(self):
         genome_length = 5 * (self.env.get_num_sensors() + 1)
-        self.population = np.random.uniform(-1, 1, self.population_size * genome_length,)
+        self.population = np.random.uniform(-1, 1, self.population_size * genome_length,) # What gets created here? Array of size...?
         self.population = self.population.reshape(self.population_size, genome_length)
 
     def initialise_environment(self):
