@@ -21,11 +21,11 @@ class Experiment:
 
         for i in range(experiments):
             best, best_fitness, avg_generation_fitness = self.evolutionary_algorithm.run()
-            avg_fitness_gen = np.append(avg_fitness_gen, avg_generation_fitness)
+            avg_fitness_gen = np.append(avg_fitness_gen, np.average(avg_generation_fitness)) # assign average of average fitness to avg_fitness_gen
             self.best_solutions = np.append(self.best_solutions, best)
             self.best_solutions_fitness = np.append(self.best_solutions_fitness, best_fitness)
 
-            if DEBUG: print(f'EXPERIMENT NUMBER {i+1}: Average generation fitness: {avg_fitness_gen, avg_fitness_gen.shape} \n\n Best solutions {self.best_solutions, self.best_solutions.shape} \n Fitness of the best solutions {self.best_solutions_fitness}')
+            if DEBUG: print(f'EXPERIMENT NUMBER {i+1}: Average generation fitness: {avg_fitness_gen, avg_fitness_gen.shape} \n\n\n Fitness of the best solutions {self.best_solutions_fitness}')
         # Plot the results of all experimental runs
         self.line_plot(avg_fitness_gen, experiments)
 
@@ -38,8 +38,7 @@ class Experiment:
 
         """
         # 1. ASSIGN ARRAY OF AVERAGE FITNESSES OVER ALL GENERATIONS OVER EACH EXPERIMENT TO DATAPOINTS
-        average_of_average = np.divide(average_fitness_generation, num_experiments)
-        data_points = np.array(average_of_average)
+        data_points = average_fitness_generation
 
         # 2. FILL ARRAY WITH VALUES CORRESPONDING TO NUMBER OF EXPERIMENTS
         array_experiments = np.array([i+1 for i in range(num_experiments)]) # list comprehension

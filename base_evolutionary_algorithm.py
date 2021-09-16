@@ -38,7 +38,6 @@ class EvolutionaryAlgorithm:
         generation = 1
 
         while(generation <= self.generations_number):
-            generation += 1
             # fitness is an array of fitnesses of individuals.
             # fitness[i] is a fitness of population[i]
             fitness = self.get_fitness()
@@ -61,13 +60,14 @@ class EvolutionaryAlgorithm:
             if DEBUG:
                 print(f'Population shape: {self.population.shape}')
                 print(f'Current Generation {generation}; Best fitness: {self.best_fitness}')
-                print(f'Best Solution: {self.best, self.best.shape}')
+                # print(f'Best Solution: {self.best, self.best.shape}')
 
             # INCREMENT GENERATION
             generation += 1
 
             # CALCULATE AVERAGE FITNESS FOR GENERATION
             avg_generation_fitness = np.append(avg_generation_fitness, np.average(fitness))
+            
 
         return self.best, self.best_fitness, avg_generation_fitness
 

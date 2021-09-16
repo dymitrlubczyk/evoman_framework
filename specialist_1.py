@@ -20,8 +20,8 @@ MutationSelection.selction_ratio = 0.5
 
 # HYPERPARAMS
 population_size = 10
-generations_number = 2
-experiment_nums = 2
+generations_number = 5
+experiment_nums = 3
 
 def run_algorithm():
     evolutionary_algorithm = EvolutionaryAlgorithm(_experiment_name='solution_1',
