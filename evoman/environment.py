@@ -159,7 +159,7 @@ class Environment(object):
         self.print_logs("PARAMETER CHANGE: " + name + " = " + str(value))
 
     def print_logs(self, msg):
-        if self.logs == "off":  # TURN BACK ON
+        if self.logs == "on":  # TURN BACK ON
             print('\n' + msg)  # prints log messages to screen
 
             if self.savelogs == "yes":  # prints log messages to file
