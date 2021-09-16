@@ -63,9 +63,11 @@ class EvolutionaryAlgorithm:
 
             # INCREMENT GENERATION
             generation += 1
-            fitnesses = np.append(fitnesses, np.average(fitness))
 
-        return self.best, self.best_fitness, fitnesses
+            # CALCULATE AVERAGE FITNESS FOR GENERATION
+            avg_generation_fitness = np.append(avg_generation_fitness, np.average(fitness))
+
+        return self.best, self.best_fitness, avg_generation_fitness
 
     def get_fitness(self):
         fitness = np.array([])
