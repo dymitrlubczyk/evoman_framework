@@ -20,7 +20,7 @@ MutationSelection.selction_ratio = 0.5
 
 # HYPERPARAMS
 population_size = 10
-generations_number = 5
+generations_number = 2
 experiment_nums = 2
 
 def run_algorithm():
