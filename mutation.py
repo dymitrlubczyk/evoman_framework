@@ -4,7 +4,7 @@ import numpy as np
 class Mutation:
     # This class contains diffrent selection implementations
 
-    # This value should be in (0, 1]
+    # This value should be in (0, 1) - TODO: play around with higher values
     mutation_ratio = 0.1
 
     @staticmethod

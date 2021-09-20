@@ -14,5 +14,6 @@ class MutationSelection:
 
     def whole_population(parents, offspring, population):
         selected_count = round(MutationSelection.selection_ratio * population.shape[0])
-        print(f"Selected Count: {selected_count}, Population index 0: {population[0]} Selected population: {population[:selected_count, :]}")
+        print(f"Selected Count: {selected_count}")
+        #print(f"Population index 0: {population[0]} Selected population: {population[:selected_count, :]}")
         return population[:selected_count, :]
