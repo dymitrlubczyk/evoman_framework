@@ -16,7 +16,7 @@ from mutation_selection import MutationSelection
 
 
 Mutation.mutation_ratio = 0.3
-MutationSelection.selction_ratio = 0.5
+MutationSelection.selection_ratio = 0.5
 
 # HYPERPARAMS
 population_size = 25
