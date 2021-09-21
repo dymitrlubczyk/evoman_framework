@@ -5,7 +5,7 @@ class Mutation:
     # This class contains diffrent selection implementations
 
     # This value should be in (0, 1]
-    mutation_ratio = 0.1
+    mutation_ratio = 0.2
 
     @staticmethod
     def basic(selected_group):
