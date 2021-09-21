@@ -31,7 +31,7 @@ class EvolutionaryAlgorithm:
         self.initialise_environment()
 
     def run(self):
-        self.initialise_population()
+        self.initialise_population() # creates the population array
         self.best_fitness = float('-inf')
         avg_generation_fitness = np.array([])
 
@@ -62,13 +62,14 @@ class EvolutionaryAlgorithm:
                 print(f'Current Generation {generation}; Best fitness: {self.best_fitness}')
                 # print(f'Best Solution: {self.best, self.best.shape}')
 
+            # CALCULATE AVERAGE FITNESS FOR GENERATION
+            avg_generation_fitness = np.append(avg_generation_fitness, np.average(fitness)) # add generation number
+            
+
             # INCREMENT GENERATION
             generation += 1
 
-            # CALCULATE AVERAGE FITNESS FOR GENERATION
-            avg_generation_fitness = np.append(avg_generation_fitness, np.average(fitness))
             
-
         return self.best, self.best_fitness, avg_generation_fitness
 
     def get_fitness(self):
