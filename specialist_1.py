@@ -32,8 +32,9 @@ evolutionary_algorithm = EvolutionaryAlgorithm(_experiment_name='solution_1',
                                                _fitness=Fitness.niche,
                                                _selection=Selection.basic,
                                                _crossover=Crossover.basic,
-                                               _mutation=Mutation.basic,
+                                               _mutation=Mutation.uniform_mutation,
                                                _mutation_selection=MutationSelection.only_paretns,
                                                _insertion=Insertion.basic)
 
+print(f'Mutation Ratio: {Mutation.mutation_ratio}')
 evolutionary_algorithm.run()
