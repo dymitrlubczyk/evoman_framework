@@ -18,7 +18,7 @@ from mutation_selection import MutationSelection
 
 
 Mutation.mutation_ratio = 0.05
-Selection.selection_ratio = 1
+Selection.selection_ratio = 0.3
 MutationSelection.selection_ratio = 0.3
 
 # HYPERPARAMS
