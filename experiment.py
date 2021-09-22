@@ -17,7 +17,7 @@ class Experiment:
 
     def run_experiment(self, experiments):
         # store average fitness per generation in array
-        avg_fitness_gen = np.array([])
+        avg_fitness_gen = np.array([],[])
 
         for i in range(experiments):
             best, best_fitness, avg_generation_fitness = self.evolutionary_algorithm.run()
