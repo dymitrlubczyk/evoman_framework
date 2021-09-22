@@ -2,11 +2,30 @@ import numpy as np
 
 
 class Mutation:
-    # This class contains diffrent selection implementations
+    """
+        Performs the mutation on the individuals in the Mating set
+
+
+        Mutation ratio shows highest 
+        Params:
+        -------
+        mutation_ratio : set by specialist.py
+
+
+        Methods:
+        --------
+        basic(selected_group)           : draws perturbation value (int) from a discrete uniform distribution
+        uniform_mutation(selected_group): draws perturbation value (float) from a uniform distribution
+        success_rate(mutant, parent)    : TODO: proportion of successful mutations where child is superior to parent; helps evaluate mutation_rate parameter
+
+    """
 
     @staticmethod
     def basic(selected_group):
-        # selected_group is a subset of population selected to be mutated
+        # selected_group is a subset of population selected to be mutated 
+        # 
+        # TODO: ITERATE THROUGH WHOLE POPULATION! PICK CANDIDATES WITH MUTATION_RATE PROBABILITY (draw value
+        # from uniform distribution and check if value is smaller than probability - if yes then add to selected group --> CHANGE MUTATION_SELECTION)
         # Mutates mutation_ratio % of genes of selected individual, creating mutant
         # selected_group_count mutants will be created
 
