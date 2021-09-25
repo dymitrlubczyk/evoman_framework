@@ -38,7 +38,7 @@ class EvolutionaryAlgorithm:
         self.initialise_population()
         self.best_fitness = float('-inf')
         avg_generation_fitness = np.array([])
-
+        max_generation_fitness = np.array([]) #this is required -Adrian
         generation = 1
 
         while(generation <= self.generations_number):
@@ -48,6 +48,7 @@ class EvolutionaryAlgorithm:
 
             # Checks if best candidate appeared in the newest generation
             self.update_best(fitness)
+            max_generation_fitness = np.append(max_generation_fitness, max(fitness))
 
             # CROSSOVER
             parents = self.selection(fitness, self.population)
@@ -69,7 +70,7 @@ class EvolutionaryAlgorithm:
 
             # CALCULATE AVERAGE FITNESS FOR GENERATION
             avg_generation_fitness = np.append(avg_generation_fitness, np.average(fitness))
-        return self.best, self.best_fitness, avg_generation_fitness
+        return self.best, self.best_fitness, avg_generation_fitness, max_generation_fitness
 
     def update_best(self, fitness):
         for i in range(self.population.shape[0]):
