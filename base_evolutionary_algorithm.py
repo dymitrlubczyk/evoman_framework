@@ -69,7 +69,6 @@ class EvolutionaryAlgorithm:
 
             # CALCULATE AVERAGE FITNESS FOR GENERATION
             avg_generation_fitness = np.append(avg_generation_fitness, np.average(fitness))
-
         return self.best, self.best_fitness, avg_generation_fitness
 
     def update_best(self, fitness):
