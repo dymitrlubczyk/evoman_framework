@@ -22,22 +22,23 @@ class Plotter:
         standard_deviations_average = np.array([]) #create array that will contain calculated standard deviations.
         standard_deviations_max = np.array([])
 
-
         for i in range(num_gens):
             avg_of_a_gen = np.array([])
             max_of_a_gen = np.array([])
-            for j in range(num_gens): #this has to be able to be done more efficiently... we'll figure out of that later
+            for j in range(average_fitness_generation.size - 1): #this has to be able to be done more efficiently... we'll figure out of that later
                 if(j % num_gens == i):
                     #Using modulo we can sort the generations with eachother and calculate the "mean of means" and "mean of maxes"
                     avg_of_a_gen = np.append(avg_of_a_gen, average_fitness_generation[j])
                     max_of_a_gen = np.append(max_of_a_gen, best_solutions_fitness[j])
-            #rounding the generation
-            data_points_avg = np.append(data_points_avg, np.average(avg_of_a_gen))
-            data_points_max = np.append(data_points_max, np.average(max_of_a_gen))
-            standard_deviations_average = np.append(standard_deviations_average, np.std(avg_of_a_gen))
-            standard_deviations_max = np.append(standard_deviations_max, np.std(max_of_a_gen))
+            
+            #averaging the generation
+            data_points_avg = np.append(data_points_avg, np.average(avg_of_a_gen)) 
+            data_points_max = np.append(data_points_max, np.average(max_of_a_gen)) #averages out the best of the generations
 
-
+            #Calculate standard deviation of the two arrays.
+            standard_deviations_average = np.append(standard_deviations_average, np.std(avg_of_a_gen)) #same here
+            standard_deviations_max = np.append(standard_deviations_max, np.std(max_of_a_gen)) #goal here is to add the standard deviation
+            
 
         # 2. FILL ARRAY WITH VALUES CORRESPONDING TO NUMBER OF EXPERIMENTS
         array_gens = np.array([i+1 for i in range(num_gens)]) # list comprehension

@@ -40,7 +40,7 @@ class EvolutionaryAlgorithm:
         self.initialise_population()
         self.best_fitness = float('-inf')
         avg_generation_fitness = np.array([])
-        max_generation_fitness = np.array([]) #this is required -Adrian
+        max_generation_fitness = np.array([]) 
         generation = 1
 
         while(generation <= self.generations_number):

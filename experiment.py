@@ -23,14 +23,14 @@ DEBUG = True
 # Mutation.mutation_ratio - says how many % of genes will be mutated, default 0.1
 # MutationSelection.selection_ratio - says how many % of given group should be selected, default 0.3
 
-Mutation.mutation_ratio = 0.10
+Mutation.mutation_ratio = 0.08
 Selection.selction_ratio = 1
 MutationSelection.selction_ratio = 0.3
 
 # HYPERPARAMS
-population_size = 5
-generations_number = 4
-number_of_runs = 3 #FOR THE REPORT THIS IS TO BE SET TO 10
+population_size = 20
+generations_number = 20 
+number_of_runs = 10 #FOR THE REPORT THIS IS TO BE SET TO 10
 
 evolutionary_algorithm = EvolutionaryAlgorithm(_experiment_name='solution_1',
                                                _population_size=population_size,
@@ -40,7 +40,7 @@ evolutionary_algorithm = EvolutionaryAlgorithm(_experiment_name='solution_1',
                                                _selection=Selection.basic,
                                                _crossover=Crossover.basic,
                                                _mutation=Mutation.basic,
-                                               _mutation_selection=MutationSelection.only_paretns,
+                                               _mutation_selection=MutationSelection.only_parents,
                                                _insertion=Insertion.basic)
 
 
@@ -50,12 +50,12 @@ class Experiment:
     # avg_fitness = np.array([])  # arrays of average fitnesses of every run of generation
     best_solutions = np.array([[]])  # 2D array which stores best member/solution of every run
     best_solutions_fitness = np.array([])  # array of best solution's fitness of every run
-
     """
     REMOVE THESE WHEN READY
     best_solutions_ex2 = np.array([[]])
     best_solutions_fitness_ex2 = np.array([]) # array of best solution's fitness of every run
     """
+
     def __init__(self, _evolutionary_algorithm):
         self.evolutionary_algorithm = _evolutionary_algorithm
 
@@ -68,10 +68,11 @@ class Experiment:
         #store the mean of the best from each generations in array
 
         for i in range(experiments):
-            best, best_fitness, avg_fitness_gen, max_fitness_gen = self.evolutionary_algorithm.run() #RUN ALGORITHM
+            best, best_fitness, temp_avg, temp_max = self.evolutionary_algorithm.run() #RUN ALGORITHM
             self.best_solutions = np.append(self.best_solutions, best) 
             self.best_solutions_fitness = np.append(self.best_solutions_fitness, best_fitness)
-
+            avg_fitness_gen = np.append(avg_fitness_gen, temp_avg)
+            max_fitness_gen = np.append(max_fitness_gen, temp_max)
             if DEBUG: print(f'EXPERIMENT NUMBER {i+1}: Average generation fitness: {avg_fitness_gen, avg_fitness_gen.shape} \n\n\n Fitness of the best solutions {self.best_solutions_fitness}')
         # Plot the results of all experimental runs
         return avg_fitness_gen, max_fitness_gen
@@ -84,7 +85,6 @@ class Experiment:
 ex1 = Experiment(evolutionary_algorithm)
 #ex2 = Experiment(evo_alg2)
 
-print("experiment start!")#test - remove when appropriate
 #Init generational data arrays
 avg_fitness_gen_ex1 = np.array([])
 best_fitness_gen_ex1 = np.array([])
