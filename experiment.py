@@ -95,8 +95,15 @@ best_fitness_gen_ex2 = np.array([])
 avg_fitness_gen_ex1, best_fitness_gen_ex1 = ex1.run_experiment(number_of_runs)
 #avg_fitness_gen2, best_fitness_gen2=ex2.run_experiment(number_of_runs)
 
+#TODO: REPLACE THIS WITH TUNING? OR ADD TUNING HERE?
+
 #Plot the results
 Plotter.line_plot(avg_fitness_gen_ex1, best_fitness_gen_ex1, generations_number)
 #Plotter.line_plot(avg_fitness_gen_ex2, best_fitness_gen_ex2, generations_number)
 
 #TODO run the best individuals 5 times and track
+
+#TODO sort the best results data so that it can be plotted correctly
+
+#TODO run boxplots of the results of the best solutions from each run
+#Plotter.box_plot()
