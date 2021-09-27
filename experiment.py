@@ -85,7 +85,7 @@ class Experiment:
             if DEBUG: print(f'EXPERIMENT NUMBER {i+1}: Average generation fitness: {avg_fitness_gen, avg_fitness_gen.shape} \n\n\n Fitness of the best solutions {self.best_solutions_fitness}')
         # Plot the results of all experimental runs
         return avg_fitness_gen, max_fitness_gen
-        # Save best of best_solutions to wonderful CSV file <3
+        
 
     def run_best_solutions(path): #TODO make
         mean_of_best_individuals = np.array([])
@@ -93,7 +93,7 @@ class Experiment:
         #TODO: SET UP ENVIRONMENT!
         for i in range(5):
             print("bruh") #remove this later
-            #temp_fitness = env.play(sol)
+            #temp_fitness, temp_player_life, temp_enemy_life, temp_time = env.play(sol) #MIGHT HAVE TO USE SIMULATE AND NOT PLAY HERE!
             #mean_of_best_individuals = np.append(mean_of_best_individuals, temp_fitness)
         
         return np.average(mean_of_best_individuals)
