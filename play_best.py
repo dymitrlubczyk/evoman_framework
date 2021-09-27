@@ -8,19 +8,16 @@ from demo_controller import player_controller
 import numpy as np
 import os
 
-class play_best:
+class Play_best:
 
-    def run_best_solutions(path): #TODO make
+    def run_best_solutions(path, ex): #TODO make
         mean_of_best_individuals = np.array([])
         sol = np.loadtext(path)
-        #TODO: MAKE THE ENVIRONMENT SMART.... THIS SHIT HARDCODED
-        env = Environment(experiment_name="Final_Runs",
-            enemies=[2],
-            playermode="ai",
-            player_controller=player_controller(10),
-            enemymode="static",
-            level=2,
-            speed="fastest")
+        
+        os.environ["SDL_VIDEODRIVER"] = "windib" #WINDIB for windows... no clue for mac.... might have to remove this..
+        #SET ENVIRONMENT BASED ON ALGO.
+        env = ex.evolutionary_algorithm.env
+
         for i in range(5):
             print("bruh") #remove this later
             temp_fitness, temp_player_life, temp_enemy_life, temp_time = env.play(sol) #MIGHT HAVE TO USE SIMULATE AND NOT PLAY HERE!

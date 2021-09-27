@@ -6,6 +6,7 @@ import glob, os
 from numpy.ma.extras import average
 from base_evolutionary_algorithm import EvolutionaryAlgorithm
 from plotter import Plotter
+from play_best import Play_best
 
 from fitness import Fitness
 from crossover import Crossover
@@ -86,18 +87,6 @@ class Experiment:
         # Plot the results of all experimental runs
         return avg_fitness_gen, max_fitness_gen
         
-
-    def run_best_solutions(path): #TODO make
-        mean_of_best_individuals = np.array([])
-        sol = np.loadtext(path)
-        #TODO: SET UP ENVIRONMENT!
-        for i in range(5):
-            print("bruh") #remove this later
-            #temp_fitness, temp_player_life, temp_enemy_life, temp_time = env.play(sol) #MIGHT HAVE TO USE SIMULATE AND NOT PLAY HERE!
-            #mean_of_best_individuals = np.append(mean_of_best_individuals, temp_fitness)
-        
-        return np.average(mean_of_best_individuals)
-        
 #TODO:ADD TUNING HERE... will pick algos for us
 #Pick your algorithms
 ex1 = Experiment(evolutionary_algorithm)
@@ -114,7 +103,7 @@ avg_fitness_gen_ex1, best_fitness_gen_ex1 = ex1.run_experiment(number_of_runs)
 #avg_fitness_gen2, best_fitness_gen2=ex2.run_experiment(number_of_runs)
 
 
-
+ex1.evolutionary_algorithm.env
 #Plot the results
 Plotter.line_plot(avg_fitness_gen_ex1, best_fitness_gen_ex1, generations_number)
 #Plotter.line_plot(avg_fitness_gen_ex2, best_fitness_gen_ex2, generations_number)
@@ -127,8 +116,8 @@ sol_path_ex1 = ex1.evolutionary_algorithm.experiment_name+"/run"
 #sol_path_ex2 = ex2.evolutionary_algorithm.experiment_name+"/run"
 
 for i in range(number_of_runs):
-    temp_fitness_avg_ex1 = ex1.run_best_solution(sol_path_ex1+"i")
-    #temp_fitness_avg_ex2 = ex2.run_best_solution(sol_path_ex1+"i")
+    temp_fitness_avg_ex1 = play_best.run_best_solution(sol_path_ex1+"i", ex1)
+    #temp_fitness_avg_ex2 = play_best.run_best_solution(sol_path_ex2+"i", ex2)
     best_solution_run_ex1 = np.append(best_solution_run_ex1, temp_fitness_avg_ex1)
     #best_solution_run_ex2 = np.append(best_solution_run_ex2, temp_fitness_avg_ex2)
 
