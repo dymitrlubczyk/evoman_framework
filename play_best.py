@@ -13,7 +13,7 @@ class play_best:
     def run_best_solutions(path): #TODO make
         mean_of_best_individuals = np.array([])
         sol = np.loadtext(path)
-        #TODO: SET UP ENVIRONMENT!
+        #TODO: MAKE THE ENVIRONMENT SMART.... THIS SHIT HARDCODED
         env = Environment(experiment_name="Final_Runs",
             enemies=[2],
             playermode="ai",
