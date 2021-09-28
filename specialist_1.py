@@ -1,4 +1,3 @@
-from tuner import Tuner
 from base_evolutionary_algorithm import EvolutionaryAlgorithm
 
 from fitness import Fitness
@@ -18,7 +17,7 @@ from mutation_selection import MutationSelection
 
 
 # HYPERPARAMS
-population_size = 100
+population_size = 150
 generations_number = 20
 
 
@@ -38,6 +37,5 @@ evolutionary_algorithm = EvolutionaryAlgorithm(_experiment_name='solution_1',
                                                _mutation_selection=MutationSelection.only_parents,
                                                _insertion=Insertion.basic)
 
-tuner = Tuner(evolutionary_algorithm)
-tuner.run()
+evolutionary_algorithm.run()
 
