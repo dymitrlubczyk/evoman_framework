@@ -7,7 +7,7 @@ from selection import Selection
 from insertion import Insertion
 from mutation import Mutation
 from mutation_selection import MutationSelection
-
+from experiment import Experiment
 
 # Before you run evolutionary algorithm you can adjust following variables:
 
@@ -16,10 +16,10 @@ from mutation_selection import MutationSelection
 # Mutation.mutation_ratio - says how many % of genes will be mutated, default 0.1
 # MutationSelection.selection_ratio - says how many % of given group should be selected, default 0.3
 
-
 # HYPERPARAMS
-population_size = 150
-generations_number = 20
+
+population_size = 5
+generations_number = 2
 
 
 Mutation.mutation_ratio = 0.24
@@ -37,6 +37,3 @@ evolutionary_algorithm = EvolutionaryAlgorithm(_experiment_name='solution_1',
                                                _mutation=Mutation.uniform_mutation,
                                                _mutation_selection=MutationSelection.only_parents,
                                                _insertion=Insertion.basic)
-
-evolutionary_algorithm.run()
-

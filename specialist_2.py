@@ -18,8 +18,8 @@ from mutation_selection import MutationSelection
 
 
 # HYPERPARAMS
-population_size = 150
-generations_number = 20
+population_size = 5
+generations_number = 2
 
 
 Mutation.mutation_ratio = 0.2

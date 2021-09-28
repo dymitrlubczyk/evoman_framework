@@ -25,26 +25,7 @@ DEBUG = True
 # Mutation.mutation_ratio - says how many % of genes will be mutated, default 0.1
 # MutationSelection.selection_ratio - says how many % of given group should be selected, default 0.3
 
-Mutation.mutation_ratio = 0.08
-Selection.selction_ratio = 1
-MutationSelection.selction_ratio = 0.3
-
-# HYPERPARAMS
-population_size = 5
-generations_number = 5
 number_of_runs = 4 #FOR THE REPORT THIS IS TO BE SET TO 10
-
-evolutionary_algorithm = EvolutionaryAlgorithm(_experiment_name='solution_1',
-                                               _population_size=population_size,
-                                               _generations_number=generations_number,
-                                               _hidden_layer_size=10,
-                                               _fitness=Fitness.niche,
-                                               _selection=Selection.basic,
-                                               _crossover=Crossover.basic,
-                                               _mutation=Mutation.basic,
-                                               _mutation_selection=MutationSelection.only_parents,
-                                               _insertion=Insertion.basic)
-
 
 #PARAMS END
 class Experiment:
@@ -73,7 +54,7 @@ class Experiment:
             max_fitness_gen = np.append(max_fitness_gen, temp_max)
 
             #save best solution for each run to .txt file (sorry marc)
-            runname = evolutionary_algorithm.experiment_name+"/run"+str(i)+".txt"
+            runname = self.evolutionary_algorithm.experiment_name+"/run"+str(i)+".txt"
             if not os.path.exists(runname):
                 np.savetxt(runname, best, delimiter=",")
             else:
@@ -82,44 +63,3 @@ class Experiment:
             if DEBUG: print(f'EXPERIMENT NUMBER {i+1}: Average generation fitness: {avg_fitness_gen, avg_fitness_gen.shape} \n\n\n Fitness of the best solutions {self.best_solutions_fitness}')
         # Plot the results of all experimental runs
         return avg_fitness_gen, max_fitness_gen
-        
-#TODO:ADD TUNING HERE... will pick algos for us
-#Pick your algorithms
-ex1 = Experiment(evolutionary_algorithm)
-#ex2 = Experiment(evo_alg2)
-
-#Init generational data arrays
-avg_fitness_gen_ex1 = np.array([])
-best_fitness_gen_ex1 = np.array([])
-avg_fitness_gen_ex2 = np.array([]) 
-best_fitness_gen_ex2 = np.array([])
-
-#Run the experiment on the two different algos
-avg_fitness_gen_ex1, best_fitness_gen_ex1 = ex1.run_experiment(number_of_runs)
-#avg_fitness_gen2, best_fitness_gen2=ex2.run_experiment(number_of_runs)
-
-
-ex1.evolutionary_algorithm.env
-#Plot the results
-Plotter.line_plot(avg_fitness_gen_ex1, best_fitness_gen_ex1, generations_number)
-#Plotter.line_plot(avg_fitness_gen_ex2, best_fitness_gen_ex2, generations_number)
-
-#TODO run the best individuals 5 times and track
-best_solution_run_ex1 = np.array([])
-best_solution_run_ex2 = np.array([])
-
-sol_path_ex1 = ex1.evolutionary_algorithm.experiment_name+"/run"
-#sol_path_ex2 = ex2.evolutionary_algorithm.experiment_name+"/run"
-
-for i in range(number_of_runs):
-    temp_fitness_avg_ex1 = Play_best.run_best_solutions(sol_path_ex1+str(i)+".txt", ex1)
-    #temp_fitness_avg_ex2 = play_best.run_best_solution(sol_path_ex2+str(i)+".txt", ex2)
-    best_solution_run_ex1 = np.append(best_solution_run_ex1, temp_fitness_avg_ex1)
-    #best_solution_run_ex2 = np.append(best_solution_run_ex2, temp_fitness_avg_ex2)
-
-#TODO sort the best results data so that it can be plotted correctly
-
-#TODO run boxplots of the results of the best solutions from each run
-Plotter.box_plot(best_solution_run_ex1, best_solution_run_ex1)
-
-#Experiment over...
