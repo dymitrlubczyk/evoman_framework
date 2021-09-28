@@ -1,3 +1,4 @@
+from tuner import Tuner
 from base_evolutionary_algorithm import EvolutionaryAlgorithm
 
 from fitness import Fitness
@@ -21,21 +22,21 @@ population_size = 150
 generations_number = 20
 
 
-Mutation.mutation_ratio = 0.24
-Crossover.offspring_ratio = 1.42
-Selection.selection_ratio = 0.31
-MutationSelection.selection_ratio = 0.338
+Mutation.mutation_ratio = 0.2
+Crossover.offspring_ratio = 1.44
+Selection.selection_ratio = 0.41
+MutationSelection.selection_ratio = 0.14
 
-evolutionary_algorithm = EvolutionaryAlgorithm(_experiment_name='solution_1',
+evolutionary_algorithm = EvolutionaryAlgorithm(_experiment_name='solution_2',
                                                _population_size=population_size,
                                                _generations_number=generations_number,
                                                _hidden_layer_size=10,
-                                               _fitness=Fitness.niche,
+                                               _fitness=Fitness.basic,
                                                _selection=Selection.tournament,
                                                _crossover=Crossover.basic,
                                                _mutation=Mutation.uniform_mutation,
                                                _mutation_selection=MutationSelection.only_parents,
                                                _insertion=Insertion.basic)
 
-evolutionary_algorithm.run()
 
+evolutionary_algorithm.run()
