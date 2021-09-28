@@ -1,73 +1,82 @@
 from os import altsep
 import numpy as np
 import matplotlib.pyplot as plt
-import math
-import csv
 from numpy.ma.extras import average
 
 DEBUG = True
 
+
 class Plotter:
-    
-    
-    def line_plot(average_fitness_generation, best_solutions_fitness, num_gens): #TODO: add experiment 2 data here :)
+
+    # TODO: add experiment 2 data here :)
+    def line_plot(average_fitness_generation, best_solutions_fitness, num_gens, enemy_id, alg_nr):
         """
             Implements the plotting of the generational average fitness value & the highest fitness value
             Is called after each experiment
 
         """
-        # 1. PROCESS THE DATA - GET THE MEAN OF MEANS, MEAN OF MAXES AND THE STANDARD DEVIATION FOR BOTH    
-        data_points_avg = np.array([]) #create array that will contain the mean of means
-        data_points_max = np.array([]) #create array that will contain the mean of maxes
-        standard_deviations_average = np.array([]) #create array that will contain calculated standard deviations.
+        # 1. PROCESS THE DATA - GET THE MEAN OF MEANS, MEAN OF MAXES AND THE STANDARD DEVIATION FOR BOTH
+        data_points_avg = np.array([])  # create array that will contain the mean of means
+        data_points_max = np.array([])  # create array that will contain the mean of maxes
+        # create array that will contain calculated standard deviations.
+        standard_deviations_average = np.array([])
         standard_deviations_max = np.array([])
 
         for i in range(num_gens):
             avg_of_a_gen = np.array([])
             max_of_a_gen = np.array([])
-            for j in range(average_fitness_generation.size - 1): #this has to be able to be done more efficiently... we'll figure out of that later
+            # this has to be able to be done more efficiently... we'll figure out of that later
+            for j in range(average_fitness_generation.size - 1):
                 if(j % num_gens == i):
-                    #Using modulo we can sort the generations with eachother and calculate the "mean of means" and "mean of maxes"
+                    # Using modulo we can sort the generations with eachother and calculate the "mean of means" and "mean of maxes"
                     avg_of_a_gen = np.append(avg_of_a_gen, average_fitness_generation[j])
                     max_of_a_gen = np.append(max_of_a_gen, best_solutions_fitness[j])
-            
-            #averaging the generation
-            data_points_avg = np.append(data_points_avg, np.average(avg_of_a_gen)) 
-            data_points_max = np.append(data_points_max, np.average(max_of_a_gen)) #averages out the best of the generations
 
-            #Calculate standard deviation of the two arrays.
-            standard_deviations_average = np.append(standard_deviations_average, np.std(avg_of_a_gen)) #same here
-            standard_deviations_max = np.append(standard_deviations_max, np.std(max_of_a_gen)) #goal here is to add the standard deviation
-            
+            # averaging the generation
+            data_points_avg = np.append(data_points_avg, np.average(avg_of_a_gen))
+            data_points_max = np.append(data_points_max, np.average(
+                max_of_a_gen))  # averages out the best of the generations
+
+            # Calculate standard deviation of the two arrays.
+            standard_deviations_average = np.append(
+                standard_deviations_average, np.std(avg_of_a_gen))  # same here
+            standard_deviations_max = np.append(standard_deviations_max, np.std(
+                max_of_a_gen))  # goal here is to add the standard deviation
 
         # 2. FILL ARRAY WITH VALUES CORRESPONDING TO NUMBER OF EXPERIMENTS
-        array_gens = np.array([i+1 for i in range(num_gens)]) # list comprehension
-        
+        array_gens = np.array([i + 1 for i in range(num_gens)])  # list comprehension
+
         #if DEBUG: print(f'Experiments array = {array_experiments, array_experiments.shape}; Average fitnesses array = {data_points, data_points.shape}')
 
         # 3. PLOT DATAPOINTS AGAINST EXPERIMENT_NUMBER
-        #REMOVE LATER MAYBE --- plt.plot(array_experiments, data_points, label="average generation fitness for experiment")
+        # REMOVE LATER MAYBE --- plt.plot(array_experiments, data_points, label="average generation fitness for experiment")
         figure, plot = plt.subplots()
-        plot.errorbar(array_gens, data_points_avg, yerr=standard_deviations_average, marker="o", color = "blue", label="Means of means")
-        plot.errorbar(array_gens, data_points_max, yerr=standard_deviations_max, marker="o", color = "red", label= "Means of maxes")
+        plot.errorbar(array_gens, data_points_avg, yerr=standard_deviations_average,
+                      marker="o", color="blue", label="Means of means")
+        plot.errorbar(array_gens, data_points_max, yerr=standard_deviations_max,
+                      marker="o", color="red", label="Means of maxes")
         plot.legend(loc='upper left')
         # 4. PLOT PARAMS
-        xint = range(num_gens+1)
+        xint = range(num_gens + 1)
         plt.xticks(xint)  # set x-axis "ticks" to only integer values
         plt.xlabel('generation')
         plt.ylabel('average fitness')
+        plt.title(f"Enemy{enemy_id}")
 
-        plt.show()
+        plt.savefig(f"LinePlotsAlg{alg_nr}Enemy{enemy_id}.png")
 
-    def box_plot(performance1, performance2): #Take in the results of the best individuals in the form of either: Gain Measure or Fitness
+    # Take in the results of the best individuals in the form of either: Gain Measure or Fitness
+    def box_plot(performance1, performance2, enemy_id):
         """
         Plots the mean of the "performance" of the best individual from all runs.
 
         """
-        #STEP 1: We already have the data the way we want it...
+        fig, ax = plt.subplots()
 
-        #STEP 2: Plot data
-        bxplt = plt.boxplot([performance1, performance2], labels=["EA1", "EA2"])
+        # STEP 1: We already have the data the way we want it...
+        # STEP 2: Plot data
+        ax.boxplot([performance1, performance2], labels=["EA1", "EA2"])
         plt.ylabel("Fitness")
+        ax.set_title(f"Best individuals against enemy {enemy_id}")
 
-        plt.show()
+        plt.savefig(f"BestIndividualsBoxEnemy{enemy_id}.png")

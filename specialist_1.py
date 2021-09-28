@@ -18,22 +18,26 @@ from experiment import Experiment
 
 # HYPERPARAMS
 
-population_size = 5
-generations_number = 2
 
+def get_algorithm(enemy_id, experiment_name):
 
-Mutation.mutation_ratio = 0.24
-Crossover.offspring_ratio = 1.42
-Selection.selection_ratio = 0.31
-MutationSelection.selection_ratio = 0.338
+    population_size = 150
+    generations_number = 20
 
-evolutionary_algorithm = EvolutionaryAlgorithm(_experiment_name='solution_1',
-                                               _population_size=population_size,
-                                               _generations_number=generations_number,
-                                               _hidden_layer_size=10,
-                                               _fitness=Fitness.niche,
-                                               _selection=Selection.tournament,
-                                               _crossover=Crossover.basic,
-                                               _mutation=Mutation.uniform_mutation,
-                                               _mutation_selection=MutationSelection.only_parents,
-                                               _insertion=Insertion.basic)
+    Mutation.mutation_ratio = 0.24
+    Crossover.offspring_ratio = 1.42
+    Selection.selection_ratio = 0.31
+    MutationSelection.selection_ratio = 0.338
+
+    evolutionary_algorithm = EvolutionaryAlgorithm(_experiment_name=experiment_name,
+                                                   _population_size=population_size,
+                                                   _generations_number=generations_number,
+                                                   _enemy_id=enemy_id,
+                                                   _hidden_layer_size=10,
+                                                   _fitness=Fitness.niche,
+                                                   _selection=Selection.tournament,
+                                                   _crossover=Crossover.basic,
+                                                   _mutation=Mutation.uniform_mutation,
+                                                   _mutation_selection=MutationSelection.only_parents,
+                                                   _insertion=Insertion.basic)
+    return evolutionary_algorithm
