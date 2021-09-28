@@ -121,3 +121,5 @@ for i in range(number_of_runs):
 
 #TODO run boxplots of the results of the best solutions from each run
 Plotter.box_plot(best_solution_run_ex1, best_solution_run_ex1)
+
+#Experiment over...

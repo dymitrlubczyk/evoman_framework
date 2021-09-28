@@ -71,4 +71,3 @@ class Plotter:
         plt.ylabel("Fitness")
 
         plt.show()
-        pass
