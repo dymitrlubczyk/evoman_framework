@@ -9,8 +9,8 @@ import os
  
 DEBUG = True
 USE_SAME = False
- 
- 
+
+
 class EvolutionaryAlgorithm:
     def __init__(self,
                  _experiment_name,
@@ -48,7 +48,6 @@ class EvolutionaryAlgorithm:
             # fitness is an array of fitnesses of individuals.
             # fitness[i] is a fitness of population[i]
             fitness = self.fitness(self.population, self.env)
- 
             # Checks if best candidate appeared in the newest generation
             self.update_best(fitness)
             
@@ -88,16 +87,15 @@ class EvolutionaryAlgorithm:
         if(USE_SAME and self.predefined.shape[0]):
             self.population = np.array(self.predefined)
             return
- 
         genome_length = self.hidden_layer_size * \
             (self.env.get_num_sensors() + 1) + 5 * (self.hidden_layer_size + 1)
         # What gets created here? Array of size... ->  self.population_size * genome_length
         self.population = np.random.uniform(-1, 1, self.population_size * genome_length,)
         self.population = self.population.reshape(self.population_size, genome_length)
- 
+
         if(USE_SAME):
             self.predefined = np.array(self.population)
- 
+
     def initialise_environment(self):
         os.environ["SDL_VIDEODRIVER"] = "dummy"
  
