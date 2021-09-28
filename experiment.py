@@ -75,13 +75,9 @@ class Experiment:
             #save best solution for each run to .txt file (sorry marc)
             runname = evolutionary_algorithm.experiment_name+"/run"+str(i)+".txt"
             if not os.path.exists(runname):
-                f = open(runname, "x")
-                f.write(str(best))
-                f.close()
+                np.savetxt(runname, best, delimiter=",")
             else:
-                f = open(runname, "w")
-                f.write(str(best))
-                f.close()
+                np.savetxt(runname, best, delimiter=",")
 
             if DEBUG: print(f'EXPERIMENT NUMBER {i+1}: Average generation fitness: {avg_fitness_gen, avg_fitness_gen.shape} \n\n\n Fitness of the best solutions {self.best_solutions_fitness}')
         # Plot the results of all experimental runs
@@ -107,7 +103,7 @@ ex1.evolutionary_algorithm.env
 #Plot the results
 Plotter.line_plot(avg_fitness_gen_ex1, best_fitness_gen_ex1, generations_number)
 #Plotter.line_plot(avg_fitness_gen_ex2, best_fitness_gen_ex2, generations_number)
-"""
+
 #TODO run the best individuals 5 times and track
 best_solution_run_ex1 = np.array([])
 best_solution_run_ex2 = np.array([])
@@ -116,13 +112,12 @@ sol_path_ex1 = ex1.evolutionary_algorithm.experiment_name+"/run"
 #sol_path_ex2 = ex2.evolutionary_algorithm.experiment_name+"/run"
 
 for i in range(number_of_runs):
-    temp_fitness_avg_ex1 = play_best.run_best_solution(sol_path_ex1+"i", ex1)
-    #temp_fitness_avg_ex2 = play_best.run_best_solution(sol_path_ex2+"i", ex2)
+    temp_fitness_avg_ex1 = Play_best.run_best_solutions(sol_path_ex1+str(i)+".txt", ex1)
+    #temp_fitness_avg_ex2 = play_best.run_best_solution(sol_path_ex2+str(i)+".txt", ex2)
     best_solution_run_ex1 = np.append(best_solution_run_ex1, temp_fitness_avg_ex1)
     #best_solution_run_ex2 = np.append(best_solution_run_ex2, temp_fitness_avg_ex2)
 
 #TODO sort the best results data so that it can be plotted correctly
 
 #TODO run boxplots of the results of the best solutions from each run
-#Plotter.box_plot(best_solution_run_ex1, best_solution_run_ex2)
-"""
+Plotter.box_plot(best_solution_run_ex1, best_solution_run_ex1)

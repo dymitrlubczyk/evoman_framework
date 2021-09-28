@@ -67,11 +67,7 @@ class Plotter:
         #STEP 1: We already have the data the way we want it...
 
         #STEP 2: Plot data
-        figure, plot = plt.subplots
-        plot[0,0].boxplot(performance1)
-        plot[0,0].set_title("EA1")
-        plot[0,1].boxplot(performance2)
-        plot[0,1].set_title("EA2")
+        bxplt = plt.boxplot([performance1, performance2], labels=["EA1", "EA2"])
         plt.ylabel("Fitness")
 
         plt.show()
