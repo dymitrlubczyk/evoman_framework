@@ -1,3 +1,4 @@
+from experiment import Experiment
 from base_evolutionary_algorithm import EvolutionaryAlgorithm
 
 from fitness import Fitness
@@ -6,7 +7,7 @@ from selection import Selection
 from insertion import Insertion
 from mutation import Mutation
 from mutation_selection import MutationSelection
-
+from experiment import Experiment
 
 # Before you run evolutionary algorithm you can adjust following variables:
 
@@ -15,27 +16,28 @@ from mutation_selection import MutationSelection
 # Mutation.mutation_ratio - says how many % of genes will be mutated, default 0.1
 # MutationSelection.selection_ratio - says how many % of given group should be selected, default 0.3
 
-
 # HYPERPARAMS
-population_size = 150
-generations_number = 20
 
 
-Mutation.mutation_ratio = 0.24
-Crossover.offspring_ratio = 1.42
-Selection.selection_ratio = 0.31
-MutationSelection.selection_ratio = 0.338
+def get_algorithm(enemy_id, experiment_name):
 
-evolutionary_algorithm = EvolutionaryAlgorithm(_experiment_name='solution_1',
-                                               _population_size=population_size,
-                                               _generations_number=generations_number,
-                                               _hidden_layer_size=10,
-                                               _fitness=Fitness.niche,
-                                               _selection=Selection.tournament,
-                                               _crossover=Crossover.basic,
-                                               _mutation=Mutation.uniform_mutation,
-                                               _mutation_selection=MutationSelection.only_parents,
-                                               _insertion=Insertion.basic)
+    population_size = 150
+    generations_number = 20
 
-evolutionary_algorithm.run()
+    Mutation.mutation_ratio = 0.24
+    Crossover.offspring_ratio = 1.42
+    Selection.selection_ratio = 0.31
+    MutationSelection.selection_ratio = 0.338
 
+    evolutionary_algorithm = EvolutionaryAlgorithm(_experiment_name=experiment_name,
+                                                   _population_size=population_size,
+                                                   _generations_number=generations_number,
+                                                   _enemy_id=enemy_id,
+                                                   _hidden_layer_size=10,
+                                                   _fitness=Fitness.niche,
+                                                   _selection=Selection.tournament,
+                                                   _crossover=Crossover.basic,
+                                                   _mutation=Mutation.uniform_mutation,
+                                                   _mutation_selection=MutationSelection.only_parents,
+                                                   _insertion=Insertion.basic)
+    return evolutionary_algorithm

@@ -36,6 +36,8 @@ class Mutation:
         selected_group_count = selected_group.shape[0]
         mutants = np.array([])
 
+
+
         for i in range(selected_group_count):
             mutant = selected_group[np.random.randint(selected_group_count)]
 
