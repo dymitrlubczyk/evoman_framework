@@ -1,24 +1,35 @@
 import numpy as np
 from numba import jit
 from timer import Timer
+from tabulate import tabulate
+
+DEBUG = False
 
 class Fitness:
     # This class contains diffrent selection implementations
 
     # (0,1> the bigger it is the more genomers are considered neighbours
     niche_ratio = 0.1
-
     
 
     @staticmethod
+    #@ jit(nopython=True)
     def basic(population, env):
+        t = Timer()
+        time = np.array([])
         fitness = np.array([])
 
         for individual in population:
-            f, pl, el, t = env.play(pcont=individual)
+            t.start()
+            f, pl, el, ti = env.play(pcont=individual)
+            time_elapsed = t.stop()
+            if DEBUG: print(f'Play of game took {time_elapsed:0.4f} seconds...')
             fitness = np.append(fitness, f)
+            time = np.append(time, time_elapsed)
 
-        return fitness
+        
+
+        return fitness, time 
 
     # @jit(nopython=False, parallel=True)
     def niche(population, env):
@@ -31,12 +42,10 @@ class Fitness:
 
         t.start() # Time how long fitness calculation takes
 
-        fitness = Fitness.basic(population, env) # Throws unsupported dtype for numba
-
+        fitness, time = Fitness.basic(population, env) # Throws unsupported dtype for numba
         time_elapsed = t.stop()
-        print(f"Calculating fitness took {time_elapsed:0.4f} seconds")
-        print('=' * 45)
 
+        print(tabulate([["Average", np.average(time)], ["Max", np.max(time)], ["Min", np.min(time)], ["Total", time_elapsed]], headers=['Type', 'Time'], tablefmt='github'))
         for individual in population: # numba doesn't support direct iteration
             distance = 0
             for neighbour in population:
