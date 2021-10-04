@@ -83,7 +83,7 @@ class Mutation:
 
             for j in range(mutated_genes_count):
                 gene_index = np.random.randint(genome_length)
-                mutant[gene_index] = min(max(np.random.normal(0, new_sigma) +
+                mutant[gene_index] = min(max(np.random.normal(0, abs(new_sigma)) +
                                              mutant[gene_index], -1), 1)
 
             mutants = np.concatenate((mutants, mutant), axis=None)
