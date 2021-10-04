@@ -3,6 +3,7 @@ from plotter import Plotter
 from play_best import Play_best
 import numpy as np
 
+
 from experiment import Experiment
 import specialist_1
 import specialist_2
@@ -13,7 +14,7 @@ number_of_runs = 10
 # TODO:ADD TUNING HERE... will pick algos for us
 # Pick your algorithms
 
-for enemy_id in [2, 3, 5]:
+for enemy_id in [2,3,5]:
     alg1 = specialist_1.get_algorithm(enemy_id, f"EA1_enemy{enemy_id}")
     alg2 = specialist_2.get_algorithm(enemy_id, f"EA2_enemy{enemy_id}")
 

@@ -23,13 +23,6 @@ class Mutation:
 
     @staticmethod
     def basic(selected_group):
-        # selected_group is a subset of population selected to be mutated
-        #
-        # TODO: ITERATE THROUGH WHOLE POPULATION! PICK CANDIDATES WITH MUTATION_RATE PROBABILITY (draw value
-        # from uniform distribution and check if value is smaller than probability - if yes then add to selected group --> CHANGE MUTATION_SELECTION)
-        # Mutates mutation_ratio % of genes of selected individual, creating mutant
-        # selected_group_count mutants will be created
-
         genome_length = selected_group.shape[1]
         mutated_genes_count = round(Mutation.mutation_ratio * genome_length)
 
@@ -47,8 +40,16 @@ class Mutation:
 
         return mutants.reshape(selected_group_count, genome_length)
 
-    def uniform_mutation(selected_group):
 
+    def uniform_mutation(selected_group):
+        """
+            Perturbs the value of a gene by drawing a value from a uniform distribution
+            with values between [-1.0, 1.0]
+
+            Params
+            ------
+            selected_group: the set of individuals returned by the mutation_selection
+        """
         genome_length = selected_group.shape[1]
         mutated_genes_count = round(Mutation.mutation_ratio * genome_length)
 
