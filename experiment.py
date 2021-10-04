@@ -1,10 +1,23 @@
 import numpy as np
-import matplotlib.pyplot as plt
-import math
+import os
 
 from numpy.ma.extras import average
 
+
 DEBUG = True
+
+# PARAMS START
+# Before you run evolutionary algorithm you can adjust following variables:
+
+# Crossover.offspring_ratio - says what's the offspring/parents ratio, default 1.5
+# Selection.selection_ratio - says how many % of population should be selected, default 0.3
+# Mutation.mutation_ratio - says how many % of genes will be mutated, default 0.1
+# MutationSelection.selection_ratio - says how many % of given group should be selected, default 0.3
+
+# number_of_runs = 4  # FOR THE REPORT THIS IS TO BE SET TO 10
+
+# PARAMS END
+
 
 class Experiment:
 
@@ -15,44 +28,30 @@ class Experiment:
     def __init__(self, _evolutionary_algorithm):
         self.evolutionary_algorithm = _evolutionary_algorithm
 
-    def run_experiment(self, experiments):
+    def run_experiment(self, number_of_runs):
+
         # store average fitness per generation in array
         avg_fitness_gen = np.array([])
+        max_fitness_gen = np.array([])
 
-        for i in range(experiments):
-            best, best_fitness, avg_generation_fitness = self.evolutionary_algorithm.run()
-            avg_fitness_gen = np.append(avg_fitness_gen, np.average(avg_generation_fitness)) # assign average of average fitness to avg_fitness_gen
+        # store the mean of the best from each generations in array
+
+        for i in range(number_of_runs):
+            best, temp_fitness, temp_avg, temp_max = self.evolutionary_algorithm.run()  # RUN ALGORITHM
+            self.best_solutions_fitness = np.append(self.best_solutions_fitness, temp_fitness)
             self.best_solutions = np.append(self.best_solutions, best)
-            self.best_solutions_fitness = np.append(self.best_solutions_fitness, best_fitness)
+            avg_fitness_gen = np.append(avg_fitness_gen, temp_avg)
+            max_fitness_gen = np.append(max_fitness_gen, temp_max)
 
-            if DEBUG: print(f'EXPERIMENT NUMBER {i+1}: Average generation fitness: {avg_fitness_gen, avg_fitness_gen.shape} \n\n\n Fitness of the best solutions {self.best_solutions_fitness}')
+            # save best solution for each run to .txt file (sorry marc)
+            runname = self.evolutionary_algorithm.experiment_name + "/run" + str(i) + ".txt"
+            # if not os.path.exists(runname):
+            np.savetxt(runname, best, delimiter=",")
+            # else:
+            #     np.savetxt(runname, best, delimiter=",")
+
+            if DEBUG:
+                print(
+                    f'RUN {i+1}: Average generation fitness: {avg_fitness_gen, avg_fitness_gen.shape} \n\n\n Fitness of the best solutions {self.best_solutions_fitness}')
         # Plot the results of all experimental runs
-        self.line_plot(avg_fitness_gen, experiments)
-
-        # Save best of best_solutions to wonderful CSV file <3
-
-    def line_plot(self, average_fitness_generation, num_experiments):
-        """
-            Implements the plotting of the generational average fitness value & the highest fitness value
-            Is called after each experiment
-
-        """
-        # 1. ASSIGN ARRAY OF AVERAGE FITNESSES OVER ALL GENERATIONS OVER EACH EXPERIMENT TO DATAPOINTS
-        data_points = average_fitness_generation
-
-        # 2. FILL ARRAY WITH VALUES CORRESPONDING TO NUMBER OF EXPERIMENTS
-        array_experiments = np.array([i+1 for i in range(num_experiments)]) # list comprehension
-        
-        if DEBUG: print(f'Experiments array = {array_experiments, array_experiments.shape}; Average fitnesses array = {data_points, data_points.shape}')
-
-        # 3. PLOT DATAPOINTS AGAINST EXPERIMENT_NUMBER
-        plt.plot(array_experiments, data_points, label="average generation fitness per experiment")
-
-        # 4. PLOT PARAMS
-        xint = range(min(array_experiments), math.ceil(max(array_experiments)) + 1)
-        plt.xticks(xint)  # set y-axis to only integer values
-        plt.xlabel('generation')
-        plt.ylabel('average fitness')
-
-        plt.show()
-
+        return avg_fitness_gen, max_fitness_gen

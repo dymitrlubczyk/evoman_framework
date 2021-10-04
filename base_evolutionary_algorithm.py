@@ -16,6 +16,7 @@ class EvolutionaryAlgorithm:
                  _experiment_name,
                  _population_size,
                  _generations_number,
+                 _enemy_id,
                  _hidden_layer_size,
                  _fitness,
                  _selection,
@@ -26,6 +27,7 @@ class EvolutionaryAlgorithm:
         self.experiment_name = _experiment_name
         self.population_size = _population_size
         self.generations_number = _generations_number
+        self.enemy_id = _enemy_id
         self.hidden_layer_size = _hidden_layer_size
         self.fitness = _fitness
         self.selection = _selection
@@ -40,6 +42,7 @@ class EvolutionaryAlgorithm:
         self.initialise_population()
         self.best_fitness = float('-inf')
         avg_generation_fitness = np.array([])
+        max_generation_fitness = np.array([])
 
         generation = 1
 
@@ -47,9 +50,11 @@ class EvolutionaryAlgorithm:
             # fitness is an array of fitnesses of individuals.
             # fitness[i] is a fitness of population[i]
             fitness = self.fitness(self.population, self.env)
-
             # Checks if best candidate appeared in the newest generation
             self.update_best(fitness)
+
+            # Add best fitness to arrayt
+            max_generation_fitness = np.append(max_generation_fitness, max(fitness))
 
             # CROSSOVER
             parents = self.selection(fitness, self.population)  # KEEPS ADDING SELECTION
@@ -73,7 +78,7 @@ class EvolutionaryAlgorithm:
             # CALCULATE AVERAGE FITNESS FOR GENERATION
             avg_generation_fitness = np.append(avg_generation_fitness, np.average(fitness))
 
-        return self.best, self.best_fitness, avg_generation_fitness
+        return self.best, self.best_fitness, avg_generation_fitness, max_generation_fitness
 
     def update_best(self, fitness):
         for i in range(self.population.shape[0]):
@@ -84,7 +89,6 @@ class EvolutionaryAlgorithm:
         if(USE_SAME and self.predefined.shape[0]):
             self.population = np.array(self.predefined)
             return
-
         genome_length = self.hidden_layer_size * \
             (self.env.get_num_sensors() + 1) + 5 * (self.hidden_layer_size + 1)
         # What gets created here? Array of size... ->  self.population_size * genome_length
@@ -101,7 +105,7 @@ class EvolutionaryAlgorithm:
             os.makedirs(self.experiment_name)
 
         self.env = Environment(experiment_name=self.experiment_name,
-                               enemies=[3],
+                               enemies=[self.enemy_id],
                                playermode="ai",
                                player_controller=player_controller(self.hidden_layer_size),
                                enemymode="static",
