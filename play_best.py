@@ -9,7 +9,7 @@ import numpy as np
 import os
 
 DEBUG = True
-EXTRA_DETAILS = True
+EXTRA_DETAILS = False
 
 
 class Play_best:
