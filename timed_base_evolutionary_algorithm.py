@@ -8,6 +8,8 @@ from environment import Environment
 from demo_controller import player_controller
 import numpy as np
 import os
+from timer import Timer
+from tabulate import tabulate
 
 DEBUG = True
 USE_SAME = False
@@ -41,6 +43,7 @@ class EvolutionaryAlgorithm:
         self.initialise_environment()
 
     def run(self):
+        t = Timer()
         self.initialise_population()
         self.best_fitness = float('-inf')
         avg_generation_fitness = np.array([])
@@ -61,31 +64,49 @@ class EvolutionaryAlgorithm:
 
             # CROSSOVER
             if DEBUG: print("Selecting parents...")
+            t.start()
             parents = self.selection(fitness, self.population)  # KEEPS ADDING SELECTION
+            parent_selection_time = t.stop()
             if DEBUG: print("Mating in progress...")
+            t.start()
             offspring = self.crossover(parents)
+            mating_time = t.stop()
 
             # MUTATION
             if DEBUG: print("Selecting mutants...")
+            t.start()
             selected = self.mutation_selection(parents, offspring, self.population)
+            mutation_selection_time = t.stop()
             if DEBUG: print("Mutating...")
+            t.start()
             mutants = self.mutation(selected)
+            mutation_time = t.stop()
 
             # NEXT GENERATION
             if DEBUG: print("Creating offspring...")
+            t.start()
             offspring = np.concatenate((offspring, mutants))
+            creating_offspring_time = t.stop()
             if DEBUG: print("Inserting offspring into population...")
+            t.start()
             self.population = self.insertion(fitness, self.population, offspring)
+            insert_offspring_time = t.stop()
 
             if DEBUG:
                 print(
                     f'Generation {generation} - Best: {self.best_fitness} Mean: {np.mean(fitness)} Std: {np.std(fitness)}')
+                
+                print(tabulate([["parent_selection", parent_selection_time], ["mating", mating_time], ["mutation_selection", mutation_selection_time], 
+                ["mutation", mutation_time], ["creating_offspring", creating_offspring_time], ["insert_offspring", insert_offspring_time]], headers=['Operation', 'Time'], tablefmt='github'))
 
             # INCREMENT GENERATION
             generation += 1
 
             # CALCULATE AVERAGE FITNESS FOR GENERATION
+            t.start()
             avg_generation_fitness = np.append(avg_generation_fitness, np.average(fitness))
+            calculate_avg_fitness = t.stop()
+            print(f'Time to calculate average fitness: {calculate_avg_fitness}')
 
         return self.best, self.best_fitness, avg_generation_fitness, max_generation_fitness
 
