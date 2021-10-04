@@ -1,5 +1,4 @@
 import numpy as np
-from numba import jit
 from timer import Timer
 from tabulate import tabulate
 
@@ -30,12 +29,8 @@ class Fitness:
             fitness = np.append(fitness, f)
             time = np.append(time, time_elapsed)
 
-        
-
-
         return fitness, time 
 
-    # @jit(nopython=False, parallel=True)
     def niche(population, env):
         t = Timer() # import Timer
         genome_length = population.shape[1]
@@ -46,17 +41,10 @@ class Fitness:
 
         t.start() # Time how long fitness calculation takes
 
-
         fitness, time = Fitness.basic(population, env) # Throws unsupported dtype for numba
         time_elapsed = t.stop()
 
         print(tabulate([["Average", np.average(time)], ["Max", np.max(time)], ["Min", np.min(time)], ["Total", time_elapsed]], headers=['Type', 'Time'], tablefmt='github'))
-
-        fitness = Fitness.basic(population, env) # Throws unsupported dtype for numba
-
-        time_elapsed = t.stop()
-        print(f"Calculating fitness took {time_elapsed:0.4f} seconds")
-        print('=' * 45)
 
         for individual in population: # numba doesn't support direct iteration
             distance = 0
