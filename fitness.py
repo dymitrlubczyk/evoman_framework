@@ -5,11 +5,14 @@ from tabulate import tabulate
 
 DEBUG = False
 
+
 class Fitness:
     # This class contains diffrent selection implementations
 
     # (0,1> the bigger it is the more genomers are considered neighbours
     niche_ratio = 0.1
+    
+
     
 
     @staticmethod
@@ -29,6 +32,7 @@ class Fitness:
 
         
 
+
         return fitness, time 
 
     # @jit(nopython=False, parallel=True)
@@ -42,10 +46,18 @@ class Fitness:
 
         t.start() # Time how long fitness calculation takes
 
+
         fitness, time = Fitness.basic(population, env) # Throws unsupported dtype for numba
         time_elapsed = t.stop()
 
         print(tabulate([["Average", np.average(time)], ["Max", np.max(time)], ["Min", np.min(time)], ["Total", time_elapsed]], headers=['Type', 'Time'], tablefmt='github'))
+
+        fitness = Fitness.basic(population, env) # Throws unsupported dtype for numba
+
+        time_elapsed = t.stop()
+        print(f"Calculating fitness took {time_elapsed:0.4f} seconds")
+        print('=' * 45)
+
         for individual in population: # numba doesn't support direct iteration
             distance = 0
             for neighbour in population:
