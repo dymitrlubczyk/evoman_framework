@@ -1,5 +1,5 @@
 import numpy as np
-
+from numba import jit
 
 class Fitness:
     # This class contains diffrent selection implementations
@@ -17,15 +17,16 @@ class Fitness:
 
         return fitness
 
+    # @jit(nopython=False, parallel=True)
     def niche(population, env):
         genome_length = population.shape[1]
         max_norm = np.linalg.norm(np.full((genome_length), 2))
         niche_size = Fitness.niche_ratio * max_norm
 
         distances = np.array([])
-        fitness = Fitness.basic(population, env)
+        fitness = Fitness.basic(population, env) # Throws unsupported dtype for numba
 
-        for individual in population:
+        for individual in population: # numba doesn't support direct iteration
             distance = 0
             for neighbour in population:
                 if np.linalg.norm(individual - neighbour) < niche_size:
