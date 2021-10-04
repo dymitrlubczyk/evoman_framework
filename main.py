@@ -2,6 +2,7 @@ from base_evolutionary_algorithm import EvolutionaryAlgorithm
 from plotter import Plotter
 from play_best import Play_best
 import numpy as np
+import cProfile
 
 from experiment import Experiment
 import specialist_1

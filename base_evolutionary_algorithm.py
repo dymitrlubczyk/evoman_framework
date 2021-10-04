@@ -1,4 +1,6 @@
 import sys
+
+from numpy.core.arrayprint import printoptions
 sys.path.insert(0, 'evoman')
 sys.path.insert(0, 'other')
 
@@ -49,6 +51,7 @@ class EvolutionaryAlgorithm:
         while(generation <= self.generations_number):
             # fitness is an array of fitnesses of individuals.
             # fitness[i] is a fitness of population[i]
+            if DEBUG: print("Calcualating fitness...")
             fitness = self.fitness(self.population, self.env)
             # Checks if best candidate appeared in the newest generation
             self.update_best(fitness)
@@ -57,15 +60,21 @@ class EvolutionaryAlgorithm:
             max_generation_fitness = np.append(max_generation_fitness, max(fitness))
 
             # CROSSOVER
+            if DEBUG: print("Selecting parents...")
             parents = self.selection(fitness, self.population)  # KEEPS ADDING SELECTION
+            if DEBUG: print("Mating in progress...")
             offspring = self.crossover(parents)
 
             # MUTATION
+            if DEBUG: print("Selecting mutants...")
             selected = self.mutation_selection(parents, offspring, self.population)
+            if DEBUG: print("Mutating...")
             mutants = self.mutation(selected)
 
             # NEXT GENERATION
+            if DEBUG: print("Creating offspring...")
             offspring = np.concatenate((offspring, mutants))
+            if DEBUG: print("Inserting offspring into population...")
             self.population = self.insertion(fitness, self.population, offspring)
 
             if DEBUG:
