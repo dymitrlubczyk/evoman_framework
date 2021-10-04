@@ -1,11 +1,4 @@
 import numpy as np
-import sys
-sys.path.insert(0, 'evoman')
-sys.path.insert(0, 'other')
-
-from environment import Environment
-from demo_controller import player_controller
-import numpy as np
 import os
 
 DEBUG = True

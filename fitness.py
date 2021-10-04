@@ -33,3 +33,8 @@ class Fitness:
             distances = np.append(distances, distance)
 
         return fitness / distances
+
+    def genome_adaptive_niche(population, env):
+        population = population[:, :-1]
+
+        return Fitness.niche(population, env)
