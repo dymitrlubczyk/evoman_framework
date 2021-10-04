@@ -51,7 +51,7 @@ class EvolutionaryAlgorithm:
         while(generation <= self.generations_number):
             # fitness is an array of fitnesses of individuals.
             # fitness[i] is a fitness of population[i]
-            if DEBUG: print("Calcualating fitness...")
+            if DEBUG: print("Calculating fitness...")
             fitness = self.fitness(self.population, self.env)
             # Checks if best candidate appeared in the newest generation
             self.update_best(fitness)
