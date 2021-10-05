@@ -1,3 +1,4 @@
+from init_population import InitPopulation
 from tuner import Tuner
 from base_evolutionary_algorithm import EvolutionaryAlgorithm
 
@@ -33,12 +34,13 @@ def get_algorithm(enemy_id, experiment_name):
     evolutionary_algorithm = EvolutionaryAlgorithm(_experiment_name=experiment_name,
                                                    _population_size=population_size,
                                                    _generations_number=generations_number,
-                                                   _enemy_id=enemy_id,
+                                                   _enemies=[enemy_id],
                                                    _hidden_layer_size=10,
+                                                   _init_population=InitPopulation.basic,
                                                    _fitness=Fitness.basic,
                                                    _selection=Selection.tournament,
                                                    _crossover=Crossover.basic,
-                                                   _mutation=Mutation.uniform_mutation,
+                                                   _mutation=Mutation.uniform,
                                                    _mutation_selection=MutationSelection.only_parents,
                                                    _insertion=Insertion.basic)
 
