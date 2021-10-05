@@ -14,8 +14,7 @@ class Mutation:
 
         Methods:
         --------
-        basic(selected_group)           : draws perturbation value (int) from a discrete uniform distribution
-        uniform_mutation(selected_group): draws perturbation value (float) from a uniform distribution
+        uniform(selected_group): draws perturbation value (float) from a uniform distribution
         success_rate(mutant, parent)    : TODO: proportion of successful mutations where child is superior to parent; helps evaluate mutation_rate parameter
 
     """
@@ -25,7 +24,6 @@ class Mutation:
 
     @staticmethod
     def uniform(selected_group, generation, generation_count, pop_size):
-
         genome_length = selected_group.shape[1]
         mutated_genes_count = round(Mutation.mutation_ratio * genome_length)
 
@@ -43,7 +41,9 @@ class Mutation:
 
         return mutants.reshape(selected_group_count, genome_length)
 
+    @staticmethod
     def gaussian(selected_group, generation, generation_count, pop_size):
+
         genome_length = selected_group.shape[1]
         mutated_genes_count = round(Mutation.mutation_ratio * genome_length)
 
@@ -61,12 +61,14 @@ class Mutation:
             mutants = np.concatenate((mutants, mutant), axis=None)
 
         return mutants.reshape(selected_group_count, genome_length)
-
+    
+    @staticmethod
     def generation_adaptive(selected_group, generation, generation_count, pop_size):
         Mutation.sigma = Mutation.sigma * Mutation.reduction * (1 - (generation / generation_count))
 
         return Mutation.gaussian(selected_group, generation, generation_count, pop_size)
-
+    
+    @staticmethod
     def genome_adaptive(selected_group, generation, generation_count, pop_size):
         genome_length = selected_group.shape[1]
         mutated_genes_count = round(Mutation.mutation_ratio * genome_length)

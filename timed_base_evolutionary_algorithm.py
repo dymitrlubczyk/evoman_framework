@@ -8,6 +8,8 @@ from environment import Environment
 from demo_controller import player_controller
 import numpy as np
 import os
+from timer import Timer
+from tabulate import tabulate
 
 DEBUG = True
 USE_SAME = False
@@ -18,9 +20,8 @@ class EvolutionaryAlgorithm:
                  _experiment_name,
                  _population_size,
                  _generations_number,
-                 _enemies,
+                 _enemy_id,
                  _hidden_layer_size,
-                 _init_population,
                  _fitness,
                  _selection,
                  _crossover,
@@ -30,7 +31,7 @@ class EvolutionaryAlgorithm:
         self.experiment_name = _experiment_name
         self.population_size = _population_size
         self.generations_number = _generations_number
-        self.enemies = _enemies
+        self.enemy_id = _enemy_id
         self.hidden_layer_size = _hidden_layer_size
         self.fitness = _fitness
         self.selection = _selection
@@ -39,13 +40,11 @@ class EvolutionaryAlgorithm:
         self.mutation_selection = _mutation_selection
         self.insertion = _insertion
         self.predefined = np.array([])
-        self.init_population = _init_population
         self.initialise_environment()
 
     def run(self):
-        self.population = self.init_population(
-            self.hidden_layer_size, self.env.get_num_sensors(), self.population_size)
-
+        t = Timer()
+        self.initialise_population()
         self.best_fitness = float('-inf')
         avg_generation_fitness = np.array([])
         max_generation_fitness = np.array([])
@@ -65,33 +64,49 @@ class EvolutionaryAlgorithm:
 
             # CROSSOVER
             if DEBUG: print("Selecting parents...")
+            t.start()
             parents = self.selection(fitness, self.population)  # KEEPS ADDING SELECTION
+            parent_selection_time = t.stop()
             if DEBUG: print("Mating in progress...")
+            t.start()
             offspring = self.crossover(parents)
+            mating_time = t.stop()
 
             # MUTATION
             if DEBUG: print("Selecting mutants...")
+            t.start()
             selected = self.mutation_selection(parents, offspring, self.population)
-
+            mutation_selection_time = t.stop()
             if DEBUG: print("Mutating...")
-            mutants = self.mutation(selected, generation,
-                                    self.generations_number, self.population_size)
+            t.start()
+            mutants = self.mutation(selected)
+            mutation_time = t.stop()
 
             # NEXT GENERATION
             if DEBUG: print("Creating offspring...")
+            t.start()
             offspring = np.concatenate((offspring, mutants))
+            creating_offspring_time = t.stop()
             if DEBUG: print("Inserting offspring into population...")
+            t.start()
             self.population = self.insertion(fitness, self.population, offspring)
+            insert_offspring_time = t.stop()
 
             if DEBUG:
                 print(
                     f'Generation {generation} - Best: {self.best_fitness} Mean: {np.mean(fitness)} Std: {np.std(fitness)}')
+                
+                print(tabulate([["parent_selection", parent_selection_time], ["mating", mating_time], ["mutation_selection", mutation_selection_time], 
+                ["mutation", mutation_time], ["creating_offspring", creating_offspring_time], ["insert_offspring", insert_offspring_time]], headers=['Operation', 'Time'], tablefmt='github'))
 
             # INCREMENT GENERATION
             generation += 1
 
             # CALCULATE AVERAGE FITNESS FOR GENERATION
+            t.start()
             avg_generation_fitness = np.append(avg_generation_fitness, np.average(fitness))
+            calculate_avg_fitness = t.stop()
+            print(f'Time to calculate average fitness: {calculate_avg_fitness}')
 
         return self.best, self.best_fitness, avg_generation_fitness, max_generation_fitness
 
@@ -100,6 +115,19 @@ class EvolutionaryAlgorithm:
             if fitness[i] > self.best_fitness:
                 self.best, self.best_fitness = self.population[i], fitness[i]
 
+    def initialise_population(self):
+        if(USE_SAME and self.predefined.shape[0]):
+            self.population = np.array(self.predefined)
+            return
+        genome_length = self.hidden_layer_size * \
+            (self.env.get_num_sensors() + 1) + 5 * (self.hidden_layer_size + 1)
+        # What gets created here? Array of size... ->  self.population_size * genome_length
+        self.population = np.random.uniform(-1, 1, self.population_size * genome_length,)
+        self.population = self.population.reshape(self.population_size, genome_length)
+
+        if(USE_SAME):
+            self.predefined = np.array(self.population)
+
     def initialise_environment(self):
         os.environ["SDL_VIDEODRIVER"] = "dummy"
 
@@ -107,7 +135,7 @@ class EvolutionaryAlgorithm:
             os.makedirs(self.experiment_name)
 
         self.env = Environment(experiment_name=self.experiment_name,
-                               enemies=self.enemies,
+                               enemies=[self.enemy_id],
                                playermode="ai",
                                player_controller=player_controller(self.hidden_layer_size),
                                enemymode="static",
