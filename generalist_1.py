@@ -40,5 +40,7 @@ def get_algorithm(enemies, experiment_name):
     return evolutionary_algorithm
 
 
+
 tuner = Tuner(get_algorithm([2, 3], 'tuning'))
 tuner.run()
+

@@ -8,6 +8,7 @@ class InitPopulation:
 
     @staticmethod
     def basic(hidden_layer_size, input_size, population_size, genome_adaptive):
+
         genome_length = hidden_layer_size * (input_size + 1) + 5 * (hidden_layer_size + 1)
 
         if(genome_adaptive):
@@ -47,8 +48,9 @@ class InitPopulation:
                 else:
                     no_solutions += 1
                     break
-
+                    
         remaining_size = population_size - 5 * (enemies_count - no_solutions)
         population = population.reshape(5 * (enemies_count - no_solutions), genome_length)
 
         return np.append(population, InitPopulation.basic(hidden_layer_size, input_size, remaining_size, genome_adaptive), axis=0)
+

@@ -10,9 +10,8 @@ from mutation_selection import MutationSelection
 
 
 def get_algorithm(enemies, experiment_name):
-
-    population_size = 150
-    generations_number = 20
+    population_size = 50
+    generations_number = 7
 
     Mutation.mutation_ratio = 0.24
     Crossover.offspring_ratio = 1.42

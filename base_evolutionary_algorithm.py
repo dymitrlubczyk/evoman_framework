@@ -50,6 +50,7 @@ class EvolutionaryAlgorithm:
         self.population = self.init_population(
             self.hidden_layer_size, self.env.get_num_sensors(), self.population_size, self.genome_adaptive)
 
+
         self.best_fitness = float('-inf')
         avg_generation_fitness = np.array([])
         max_generation_fitness = np.array([])
@@ -61,7 +62,9 @@ class EvolutionaryAlgorithm:
             # fitness[i] is a fitness of population[i]
             if DEBUG:
                 print("Calculating fitness...")
+
             fitness = self.fitness(self.population, self.env, self.genome_adaptive)
+
             # Checks if best candidate appeared in the newest generation
             self.update_best(fitness)
 
@@ -89,6 +92,7 @@ class EvolutionaryAlgorithm:
             # NEXT GENERATION
             if DEBUG:
                 print("Creating offspring...")
+                
             newcomers = np.concatenate((offspring, mutants))
             if DEBUG:
                 print("Inserting offspring into population...")
