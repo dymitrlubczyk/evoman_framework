@@ -5,7 +5,7 @@ DEBUG = True
 EXTRA_DETAILS = True
 
 
-class Play_best:
+class PlayBest:
 
     def run_best_solutions(path, ex):  # TODO make
         mean_of_best_individuals = np.array([])

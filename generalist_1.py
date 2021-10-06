@@ -30,7 +30,7 @@ def get_algorithm(enemies, experiment_name):
                                                    _generations_number=generations_number,
                                                    _enemies=enemies,
                                                    _hidden_layer_size=10,
-                                                   _init_population=InitPopulation.same_population,
+                                                   _init_population=InitPopulation.with_best,
                                                    _fitness=Fitness.niche,
                                                    _selection=Selection.tournament,
                                                    _crossover=Crossover.basic,
@@ -40,7 +40,5 @@ def get_algorithm(enemies, experiment_name):
     return evolutionary_algorithm
 
 
-
 tuner = Tuner(get_algorithm([2, 3], 'tuning'))
 tuner.run()
-
