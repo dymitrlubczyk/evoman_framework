@@ -12,7 +12,7 @@ from mutation_selection import MutationSelection
 def get_algorithm(enemies, experiment_name):
 
     population_size = 50
-    generations_number = 5
+    generations_number = 7
 
     Mutation.mutation_ratio = 0.24
     Crossover.offspring_ratio = 1.42
@@ -24,7 +24,7 @@ def get_algorithm(enemies, experiment_name):
                                                    _generations_number=generations_number,
                                                    _enemies=enemies,
                                                    _hidden_layer_size=10,
-                                                   _init_population=InitPopulation.genome_adaptive,
+                                                   _init_population=InitPopulation.genome_adaptive_with_best,
                                                    _fitness=Fitness.genome_adaptive_niche,
                                                    _selection=Selection.tournament,
                                                    _crossover=Crossover.basic,
@@ -34,4 +34,4 @@ def get_algorithm(enemies, experiment_name):
     return evolutionary_algorithm
 
 
-get_algorithm([1, 2], 'karamba_2').run()
+get_algorithm([4], 'karamba_2').run()
