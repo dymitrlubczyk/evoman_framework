@@ -10,8 +10,6 @@ from mutation_selection import MutationSelection
 
 
 def get_algorithm(enemies, experiment_name):
-
-
     population_size = 50
     generations_number = 7
 
@@ -26,15 +24,15 @@ def get_algorithm(enemies, experiment_name):
                                                    _generations_number=generations_number,
                                                    _enemies=enemies,
                                                    _hidden_layer_size=10,
-                                                   _init_population=InitPopulation.genome_adaptive_with_best,
-                                                   _fitness=Fitness.genome_adaptive_niche,
+                                                   _init_population=InitPopulation.with_best,
+                                                   _fitness=Fitness.niche,
                                                    _selection=Selection.tournament,
                                                    _crossover=Crossover.basic,
                                                    _mutation=Mutation.genome_adaptive,
                                                    _mutation_selection=MutationSelection.only_parents,
-                                                   _insertion=Insertion.basic)
+                                                   _insertion=Insertion.basic,
+                                                   _genome_adaptive=True)
     return evolutionary_algorithm
 
 
 get_algorithm([1, 4], 'karamba_2').run()
-

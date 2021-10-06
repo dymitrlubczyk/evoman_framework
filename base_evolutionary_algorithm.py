@@ -27,7 +27,8 @@ class EvolutionaryAlgorithm:
                  _crossover,
                  _mutation,
                  _mutation_selection,
-                 _insertion):
+                 _insertion,
+                 _genome_adaptive=False):
         self.experiment_name = _experiment_name
         self.multiple_mode = _multiple_mode
         self.population_size = _population_size
@@ -43,10 +44,12 @@ class EvolutionaryAlgorithm:
         self.predefined = np.array([])
         self.init_population = _init_population
         self.initialise_environment()
+        self.genome_adaptive = _genome_adaptive
 
     def run(self):
         self.population = self.init_population(
-            self.hidden_layer_size, self.env.get_num_sensors(), self.population_size, self.enemies)
+            self.hidden_layer_size, self.env.get_num_sensors(), self.population_size, self.genome_adaptive)
+
 
         self.best_fitness = float('-inf')
         avg_generation_fitness = np.array([])
@@ -59,7 +62,9 @@ class EvolutionaryAlgorithm:
             # fitness[i] is a fitness of population[i]
             if DEBUG:
                 print("Calculating fitness...")
-            fitness = self.fitness(self.population, self.env)
+
+            fitness = self.fitness(self.population, self.env, self.genome_adaptive)
+
             # Checks if best candidate appeared in the newest generation
             self.update_best(fitness)
 
@@ -87,10 +92,11 @@ class EvolutionaryAlgorithm:
             # NEXT GENERATION
             if DEBUG:
                 print("Creating offspring...")
-            offspring = np.concatenate((offspring, mutants))
+                
+            newcomers = np.concatenate((offspring, mutants))
             if DEBUG:
                 print("Inserting offspring into population...")
-            self.population = self.insertion(fitness, self.population, offspring)
+            self.population = self.insertion(fitness, self.population, newcomers)
 
             if DEBUG:
                 print(
@@ -101,6 +107,9 @@ class EvolutionaryAlgorithm:
 
             # CALCULATE AVERAGE FITNESS FOR GENERATION
             avg_generation_fitness = np.append(avg_generation_fitness, np.average(fitness))
+
+        if(self.genome_adaptive):
+            return self.best[:-1], self.best_fitness, avg_generation_fitness, max_generation_fitness
 
         return self.best, self.best_fitness, avg_generation_fitness, max_generation_fitness
 

@@ -13,10 +13,14 @@ class Fitness:
 
     @staticmethod
     # @ jit(nopython=True)
-    def basic(population, env):
+
+    def basic(population, env, genome_adaptive):
         t = Timer()
         time = np.array([])
         fitness = np.array([])
+
+        if(genome_adaptive):
+            population = population[:, :-1]
 
         for individual in population:
             t.start()
@@ -29,7 +33,7 @@ class Fitness:
 
         return fitness, time
 
-    def niche(population, env):
+    def niche(population, env, genome_adaptive):
         t = Timer()  # import Timer
         genome_length = population.shape[1]
         max_norm = np.linalg.norm(np.full((genome_length), 2))
@@ -39,21 +43,19 @@ class Fitness:
 
         # t.start()  # Time how long fitness calculation takes
 
-        fitness, time = Fitness.basic(population, env)  # Throws unsupported dtype for numba
+
+        fitness, time = Fitness.basic(population, env, genome_adaptive)
+
         # time_elapsed = t.stop()
 
         # print(tabulate([["Average", np.average(time)], ["Max", np.max(time)], ["Min", np.min(time)], [
         #       "Total", time_elapsed]], headers=['Type', 'Time'], tablefmt='github'))
 
-        for individual in population:  # numba doesn't support direct iteration
+        for individual in population:
+
             distance = 0
             for neighbour in population:
                 if np.linalg.norm(individual - neighbour) < niche_size:
                     distance += 1 - np.linalg.norm(individual - neighbour) / max_norm
             distances = np.append(distances, distance)
         return fitness / distances
-
-    def genome_adaptive_niche(population, env):
-        population = population[:, :-1]
-
-        return Fitness.niche(population, env)

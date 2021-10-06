@@ -7,63 +7,50 @@ class InitPopulation:
     population = np.array([])
 
     @staticmethod
-    def basic(hidden_layer_size, input_size, population_size, enemies):
+    def basic(hidden_layer_size, input_size, population_size, genome_adaptive):
+
         genome_length = hidden_layer_size * (input_size + 1) + 5 * (hidden_layer_size + 1)
+
+        if(genome_adaptive):
+            genome_length += 1
 
         population = np.random.uniform(-1, 1, population_size * genome_length)
         return population.reshape(population_size, genome_length)
 
     @staticmethod
-    def same_population(hidden_layer_size, input_size, population_size, enemies):
+    def same_population(hidden_layer_size, input_size, population_size, genome_adaptive):
         if(InitPopulation.population.shape[0] == 0):
             InitPopulation.population = InitPopulation.basic(
-                hidden_layer_size, input_size, population_size)
+                hidden_layer_size, input_size, population_size, genome_adaptive)
 
         return InitPopulation.population
 
     @staticmethod
-    def genome_adaptive(hidden_layer_size, input_size, population_size, enemies):
-        genome_length = hidden_layer_size * (input_size + 1) + 5 * (hidden_layer_size + 1) + 1
-
-        population = np.random.uniform(-1, 1, population_size * genome_length)
-        return population.reshape(population_size, genome_length)
-
-    @staticmethod
-    def with_best(hidden_layer_size, input_size, population_size, enemies):
+    def with_best(hidden_layer_size, input_size, population_size, genome_adaptive):
         genome_length = hidden_layer_size * (input_size + 1) + 5 * (hidden_layer_size + 1)
+        if(genome_adaptive):
+            genome_length += 1
+
         population = np.array([])
         no_solutions = 0
+        enemies_count = 8
 
-        for enemyId in range(1, 10):
+        for enemy_id in range(enemies_count):
             for i in range(5):
-                path = f'enemy{enemyId}/run{i}.txt'
+                path = f'enemy{enemy_id+1}/run{i}.txt'
                 if(os.path.isfile(path)):
-                    population = np.append(population, np.loadtxt(path))
+                    genome = np.loadtxt(path)
+
+                    if(genome_adaptive):
+                        genome = np.append(genome, np.random.uniform(0, 1))
+
+                    population = np.append(population, genome)
                 else:
                     no_solutions += 1
                     break
+                    
+        remaining_size = population_size - 5 * (enemies_count - no_solutions)
+        population = population.reshape(5 * (enemies_count - no_solutions), genome_length)
 
-        remaining_size = population_size - 5 * (9 - no_solutions)
-        population = population.reshape(5 * (9 - no_solutions), genome_length)
-        return np.append(population, InitPopulation.basic(hidden_layer_size, input_size, remaining_size, enemies), axis=0)
+        return np.append(population, InitPopulation.basic(hidden_layer_size, input_size, remaining_size, genome_adaptive), axis=0)
 
-    def genome_adaptive_with_best(hidden_layer_size, input_size, population_size, enemies):
-        genome_length = hidden_layer_size * (input_size + 1) + 5 * (hidden_layer_size + 1) + 1
-        population = np.array([])
-        no_solutions = 0
-
-        for enemyId in range(1, 10):
-            for i in range(5):
-                path = f'enemy{enemyId}/run{i}.txt'
-
-                if(os.path.isfile(path)):
-                    sigma = np.random.uniform(0, 1)
-                    population = np.append(population, np.append(np.loadtxt(path), sigma))
-                else:
-                    no_solutions += 1
-                    break
-
-        remaining_size = population_size - 5 * (9 - no_solutions)
-        population = population.reshape(5 * (9 - no_solutions), genome_length)
-
-        return np.append(population, InitPopulation.genome_adaptive(hidden_layer_size, input_size, remaining_size, enemies), axis=0)
