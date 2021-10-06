@@ -44,7 +44,7 @@ class EvolutionaryAlgorithm:
 
     def run(self):
         self.population = self.init_population(
-            self.hidden_layer_size, self.env.get_num_sensors(), self.population_size)
+            self.hidden_layer_size, self.env.get_num_sensors(), self.population_size, self.enemies)
 
         self.best_fitness = float('-inf')
         avg_generation_fitness = np.array([])
@@ -55,7 +55,8 @@ class EvolutionaryAlgorithm:
         while(generation <= self.generations_number):
             # fitness is an array of fitnesses of individuals.
             # fitness[i] is a fitness of population[i]
-            if DEBUG: print("Calculating fitness...")
+            if DEBUG:
+                print("Calculating fitness...")
             fitness = self.fitness(self.population, self.env)
             # Checks if best candidate appeared in the newest generation
             self.update_best(fitness)
@@ -64,23 +65,29 @@ class EvolutionaryAlgorithm:
             max_generation_fitness = np.append(max_generation_fitness, max(fitness))
 
             # CROSSOVER
-            if DEBUG: print("Selecting parents...")
+            if DEBUG:
+                print("Selecting parents...")
             parents = self.selection(fitness, self.population)  # KEEPS ADDING SELECTION
-            if DEBUG: print("Mating in progress...")
+            if DEBUG:
+                print("Mating in progress...")
             offspring = self.crossover(parents)
 
             # MUTATION
-            if DEBUG: print("Selecting mutants...")
+            if DEBUG:
+                print("Selecting mutants...")
             selected = self.mutation_selection(parents, offspring, self.population)
 
-            if DEBUG: print("Mutating...")
+            if DEBUG:
+                print("Mutating...")
             mutants = self.mutation(selected, generation,
                                     self.generations_number, self.population_size)
 
             # NEXT GENERATION
-            if DEBUG: print("Creating offspring...")
+            if DEBUG:
+                print("Creating offspring...")
             offspring = np.concatenate((offspring, mutants))
-            if DEBUG: print("Inserting offspring into population...")
+            if DEBUG:
+                print("Inserting offspring into population...")
             self.population = self.insertion(fitness, self.population, offspring)
 
             if DEBUG:
