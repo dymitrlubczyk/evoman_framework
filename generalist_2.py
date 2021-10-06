@@ -11,8 +11,8 @@ from mutation_selection import MutationSelection
 
 def get_algorithm(enemies, experiment_name):
 
-    population_size = 50
-    generations_number = 7
+    population_size = 150
+    generations_number = 20
 
     Mutation.mutation_ratio = 0.24
     Crossover.offspring_ratio = 1.42
@@ -20,6 +20,7 @@ def get_algorithm(enemies, experiment_name):
     MutationSelection.selection_ratio = 0.338
 
     evolutionary_algorithm = EvolutionaryAlgorithm(_experiment_name=experiment_name,
+                                                   _multiple_mode="yes",
                                                    _population_size=population_size,
                                                    _generations_number=generations_number,
                                                    _enemies=enemies,
@@ -34,4 +35,4 @@ def get_algorithm(enemies, experiment_name):
     return evolutionary_algorithm
 
 
-get_algorithm([4], 'karamba_2').run()
+get_algorithm([1, 4], 'karamba_2').run()

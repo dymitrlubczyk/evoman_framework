@@ -29,11 +29,12 @@ def get_algorithm(enemy_id, experiment_name):
     MutationSelection.selection_ratio = 0.338
 
     evolutionary_algorithm = EvolutionaryAlgorithm(_experiment_name=experiment_name,
+                                                   _multiple_mode="no",
                                                    _population_size=population_size,
                                                    _generations_number=generations_number,
                                                    _enemies=[enemy_id],
                                                    _hidden_layer_size=10,
-                                                   _init_population=InitPopulation.basic,
+                                                   _init_population=InitPopulation.with_best,
                                                    _fitness=Fitness.niche,
                                                    _selection=Selection.tournament,
                                                    _crossover=Crossover.basic,
@@ -41,3 +42,6 @@ def get_algorithm(enemy_id, experiment_name):
                                                    _mutation_selection=MutationSelection.only_parents,
                                                    _insertion=Insertion.basic)
     return evolutionary_algorithm
+
+
+get_algorithm(4, 'karamba_2').run()

@@ -32,6 +32,7 @@ def get_algorithm(enemy_id, experiment_name):
     MutationSelection.selection_ratio = 0.14
 
     evolutionary_algorithm = EvolutionaryAlgorithm(_experiment_name=experiment_name,
+                                                   _multiple_mode="no",
                                                    _population_size=population_size,
                                                    _generations_number=generations_number,
                                                    _enemies=[enemy_id],

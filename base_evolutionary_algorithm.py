@@ -16,6 +16,7 @@ USE_SAME = False
 class EvolutionaryAlgorithm:
     def __init__(self,
                  _experiment_name,
+                 _multiple_mode,
                  _population_size,
                  _generations_number,
                  _enemies,
@@ -28,6 +29,7 @@ class EvolutionaryAlgorithm:
                  _mutation_selection,
                  _insertion):
         self.experiment_name = _experiment_name
+        self.multiple_mode = _multiple_mode
         self.population_size = _population_size
         self.generations_number = _generations_number
         self.enemies = _enemies
@@ -115,6 +117,7 @@ class EvolutionaryAlgorithm:
 
         self.env = Environment(experiment_name=self.experiment_name,
                                enemies=self.enemies,
+                               multiplemode=self.multiple_mode,
                                playermode="ai",
                                player_controller=player_controller(self.hidden_layer_size),
                                enemymode="static",
