@@ -1,6 +1,5 @@
 import sys
 
-from numpy.core.arrayprint import printoptions
 sys.path.insert(0, 'evoman')
 sys.path.insert(0, 'other')
 
@@ -10,7 +9,6 @@ import numpy as np
 import os
 
 DEBUG = True
-USE_SAME = False
 
 
 class EvolutionaryAlgorithm:
@@ -49,7 +47,6 @@ class EvolutionaryAlgorithm:
     def run(self):
         self.population = self.init_population(
             self.hidden_layer_size, self.env.get_num_sensors(), self.population_size, self.genome_adaptive)
-
 
         self.best_fitness = float('-inf')
         avg_generation_fitness = np.array([])
@@ -92,7 +89,7 @@ class EvolutionaryAlgorithm:
             # NEXT GENERATION
             if DEBUG:
                 print("Creating offspring...")
-                
+
             newcomers = np.concatenate((offspring, mutants))
             if DEBUG:
                 print("Inserting offspring into population...")

@@ -1,27 +1,11 @@
 import numpy as np
-import os
-
-from numpy.ma.extras import average
 
 
 DEBUG = True
 
-# PARAMS START
-# Before you run evolutionary algorithm you can adjust following variables:
-
-# Crossover.offspring_ratio - says what's the offspring/parents ratio, default 1.5
-# Selection.selection_ratio - says how many % of population should be selected, default 0.3
-# Mutation.mutation_ratio - says how many % of genes will be mutated, default 0.1
-# MutationSelection.selection_ratio - says how many % of given group should be selected, default 0.3
-
-# number_of_runs = 4  # FOR THE REPORT THIS IS TO BE SET TO 10
-
-# PARAMS END
-
 
 class Experiment:
 
-    # avg_fitness = np.array([])  # arrays of average fitnesses of every run of generation
     best_solutions = np.array([[]])  # 2D array which stores best member/solution of every run
     best_solutions_fitness = np.array([])  # array of best solution's fitness of every run
 
