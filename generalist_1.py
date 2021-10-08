@@ -19,7 +19,7 @@ def get_algorithm(enemies, experiment_name):
 
     Mutation.mutation_ratio = 0.24
     Mutation.reduction = 0.85
-    Mutation.sigma = 0.5
+    Mutation.sigma = 1.83
     Crossover.offspring_ratio = 1.42
     Selection.selection_ratio = 0.31
     MutationSelection.selection_ratio = 0.338
@@ -30,7 +30,7 @@ def get_algorithm(enemies, experiment_name):
                                                    _generations_number=generations_number,
                                                    _enemies=enemies,
                                                    _hidden_layer_size=10,
-                                                   _init_population=InitPopulation.with_best,
+                                                   _init_population=InitPopulation.basic,
                                                    _fitness=Fitness.niche,
                                                    _selection=Selection.tournament,
                                                    _crossover=Crossover.basic,
@@ -39,6 +39,3 @@ def get_algorithm(enemies, experiment_name):
                                                    _insertion=Insertion.basic)
     return evolutionary_algorithm
 
-
-tuner = Tuner(get_algorithm([2, 3], 'tuning'))
-tuner.run()

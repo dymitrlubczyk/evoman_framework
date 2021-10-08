@@ -20,7 +20,7 @@ class Tuner:
             print(f'Range: +/-{100*alpha}%')
             self.tune_parameter(Mutation.sigma, alpha, self.set_mutation_sigma)
 
-            print('Mutation ratio - ', Mutation.sigma)
+            print('Mutation sigma - ', Mutation.sigma)
 
             print('\n\n\n')
 
@@ -42,7 +42,7 @@ class Tuner:
     def test_algorithm(self):
         score = 0
         for i in range(Tuner.evolutionary_algorithm_runs):
-            _, best_fitness, _ = self.evolutionary_algorithm.run()
+            _, best_fitness, _, _ = self.evolutionary_algorithm.run()
             score += best_fitness
 
         return score
