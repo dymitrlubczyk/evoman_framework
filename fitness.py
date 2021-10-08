@@ -27,7 +27,7 @@ class Fitness:
 
         distances = np.array([])
 
-        fitness, time = Fitness.basic(population, env, genome_adaptive)
+        fitness = Fitness.basic(population, env, genome_adaptive)
 
         for individual in population:
 

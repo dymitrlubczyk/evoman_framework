@@ -24,7 +24,7 @@ def get_algorithm(enemies, experiment_name):
                                                    _generations_number=generations_number,
                                                    _enemies=enemies,
                                                    _hidden_layer_size=10,
-                                                   _init_population=InitPopulation.with_best,
+                                                   _init_population=InitPopulation.basic,
                                                    _fitness=Fitness.niche,
                                                    _selection=Selection.tournament,
                                                    _crossover=Crossover.basic,
@@ -33,6 +33,3 @@ def get_algorithm(enemies, experiment_name):
                                                    _insertion=Insertion.basic,
                                                    _genome_adaptive=True)
     return evolutionary_algorithm
-
-
-get_algorithm([1, 4], 'karamba_2').run()
