@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from scipy import stats
 
 DEBUG = True
 
@@ -59,12 +60,12 @@ class Plotter:
         plt.xticks(xint)  # set x-axis "ticks" to only integer values
         plt.xlabel('generation')
         plt.ylabel('average fitness')
-        plt.title(f"Enemy{enemy_id}")
+        plt.title(f"Group {enemy_id}")
 
-        plt.savefig(f"LinePlotsAlg{alg_nr}Enemy{enemy_id}.png")
+        plt.savefig(f"LinePlotsAlg{alg_nr}Group{enemy_id}.png")
 
     # Take in the results of the best individuals in the form of either: Gain Measure or Fitness
-    def box_plot(performance1, performance2, enemy_id):
+    def box_plot(performance1, performance2, training_group):
         """
         Plots the mean of the "performance" of the best individual from all runs.
 
@@ -75,6 +76,13 @@ class Plotter:
         # STEP 2: Plot data
         ax.boxplot([performance1, performance2], labels=["EA1", "EA2"])
         plt.ylabel("Fitness")
-        ax.set_title(f"Best individuals against enemy {enemy_id}")
+        ax.set_title(f"Best individuals - Training group {training_group}")
 
-        plt.savefig(f"BestIndividualsBoxEnemy{enemy_id}.png")
+        plt.savefig(f"BestIndividualsBoxTrainingGroup{training_group}.png")
+
+    def t_test(performance1_alg1, performance2_alg1, performance1_alg2, performance2_alg2):
+        A=[performance1_alg1, performance2_alg1]
+        B=[performance1_alg2, performance2_alg2]
+
+        C = stats.ttest_ind(A,B)
+        print(C)
