@@ -54,10 +54,13 @@ class Plotter:
                       marker="o", color="blue", label="Means of means")
         plot.errorbar(array_gens, data_points_max, yerr=standard_deviations_max,
                       marker="o", color="red", label="Means of maxes")
-        plot.legend(loc='upper left')
+        plot.legend(loc='lower right')
         # 4. PLOT PARAMS
         xint = range(num_gens + 1)
         plt.xticks(xint)  # set x-axis "ticks" to only integer values
+        plt.rc('xtick', labelsize = 13)
+        plt.rc('ytick', labelsize = 13)
+        plt.rc('axes', labelsize=17, titlesize=20)
         plt.xlabel('generation')
         plt.ylabel('average fitness')
         plt.title(f"Group {enemy_id}")
@@ -77,7 +80,9 @@ class Plotter:
         ax.boxplot([performance1, performance2], labels=["EA1", "EA2"])
         plt.ylabel("Fitness")
         ax.set_title(f"Best individuals - Training group {training_group}")
-
+        plt.rc('xtick', labelsize = 13)
+        plt.rc('ytick', labelsize = 13)
+        plt.rc('axes', labelsize=17, titlesize=20)
         plt.savefig(f"BestIndividualsBoxTrainingGroup{training_group}.png")
 
     def t_test(performance1_alg1, performance2_alg1, performance1_alg2, performance2_alg2):
