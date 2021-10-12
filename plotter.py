@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy import stats
+import pandas as pd
 
 DEBUG = True
 
@@ -91,3 +92,18 @@ class Plotter:
 
         C = stats.ttest_ind(A,B)
         print(C)
+    
+    def table_plot(avg_player_life, avg_enemy_life):
+        #prepare for lazy plotting code
+        fig, ax = plt.subplots()
+        data=[
+            ["Enemy number", "Average player energy points", "Average enemy energy points"]
+        ]
+        for i in range(1,9):
+            data.append["Enemy {i}", avg_player_life[i-1], avg_enemy_life[i-1]]
+        
+        table = ax.table(cellText=data, loc="center")
+        table.set_fontsize()
+        table.set_scale(1,2)
+        ax.axis('off')
+        plt.savefig(f"BestIndividualPoints.png")

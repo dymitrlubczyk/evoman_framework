@@ -73,4 +73,4 @@ class PlayBest:
                             temp_enemy_life, " -- Time: ", temp_time)
             avg_player_life_all = np.append(avg_player_life_all, np.mean(avg_player_life_1enemy))
             avg_enemy_life_all = np.append(avg_enemy_life_all, np.mean(avg_enemy_life_1enemy))
-        
+        return avg_player_life_all, avg_enemy_life_all
