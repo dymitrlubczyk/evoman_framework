@@ -100,10 +100,10 @@ class Plotter:
             ["Enemy number", "Average player energy points", "Average enemy energy points"]
         ]
         for i in range(1,9):
-            data.append["Enemy {i}", avg_player_life[i-1], avg_enemy_life[i-1]]
+            indexnr = i-1
+            data.append([f"Enemy {i}", avg_player_life[indexnr], avg_enemy_life[indexnr]])
         
         table = ax.table(cellText=data, loc="center")
-        table.set_fontsize()
-        table.set_scale(1,2)
+        table.set_fontsize(13)
         ax.axis('off')
         plt.savefig(f"BestIndividualPoints.png")

@@ -10,8 +10,8 @@ import generalist_1
 import generalist_2
 
 number_of_runs = 2
-enemy_group1=[2,3,5]
-enemy_group2=[4,6,8]
+enemy_group1=[2,3]
+enemy_group2=[4,6]
 
 alg1 = generalist_1.get_algorithm(enemy_group1, f"EA1_group1")
 alg2 = generalist_2.get_algorithm(enemy_group1, f"EA2_group1")

@@ -65,12 +65,16 @@ class PlayBest:
             for i in range(5):
                 temp_fitness, temp_player_life, temp_enemy_life, temp_time = env.play(
                     sol)  # MIGHT HAVE TO USE SIMULATE AND NOT PLAY HERE!
-
+                avg_player_life_1enemy = np.append(avg_player_life_1enemy, temp_player_life)
+                avg_enemy_life_1enemy = np.append(avg_enemy_life_1enemy, temp_enemy_life)
                 if (DEBUG == True):
-                    print("The temp fitness for run ", i, " is ", temp_fitness)
+                    #print("The temp fitness for run ", i, " is ", temp_fitness)
                     if(EXTRA_DETAILS == True):
                         print("Player life: ", temp_player_life, " -- Enemy life: ",
                             temp_enemy_life, " -- Time: ", temp_time)
-            avg_player_life_all = np.append(avg_player_life_all, np.mean(avg_player_life_1enemy))
-            avg_enemy_life_all = np.append(avg_enemy_life_all, np.mean(avg_enemy_life_1enemy))
+            
+            print(f"ENEMY {en} PLAYER LIFE AVG: ", avg_player_life_1enemy)
+            print(f"ENEMY {en} ENEMY LIFE AVG: ", avg_enemy_life_1enemy)
+            avg_player_life_all = np.append(avg_player_life_all, np.average(avg_player_life_1enemy))
+            avg_enemy_life_all = np.append(avg_enemy_life_all, np.average(avg_enemy_life_1enemy))
         return avg_player_life_all, avg_enemy_life_all
