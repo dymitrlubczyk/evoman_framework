@@ -58,9 +58,9 @@ class Plotter:
         # 4. PLOT PARAMS
         xint = range(num_gens + 1)
         plt.xticks(xint)  # set x-axis "ticks" to only integer values
-        plt.rc('xtick', labelsize = 13)
-        plt.rc('ytick', labelsize = 13)
-        plt.rc('axes', labelsize=17, titlesize=20)
+        plt.rc('xtick', labelsize = 12)
+        plt.rc('ytick', labelsize = 12)
+        plt.rc('axes', labelsize=16, titlesize=20)
         plt.xlabel('generation')
         plt.ylabel('average fitness')
         plt.title(f"Group {enemy_id}")
@@ -78,11 +78,11 @@ class Plotter:
         # STEP 1: We already have the data the way we want it...
         # STEP 2: Plot data
         ax.boxplot([performance1, performance2], labels=["EA1", "EA2"])
-        plt.ylabel("Fitness")
+        plt.ylabel("Gain measure")
         ax.set_title(f"Best individuals - Training group {training_group}")
-        plt.rc('xtick', labelsize = 13)
-        plt.rc('ytick', labelsize = 13)
-        plt.rc('axes', labelsize=17, titlesize=20)
+        plt.rc('xtick', labelsize = 12)
+        plt.rc('ytick', labelsize = 12)
+        plt.rc('axes', labelsize=15, titlesize=20)
         plt.savefig(f"BestIndividualsBoxTrainingGroup{training_group}.png")
 
     def t_test(performance1_alg1, performance2_alg1, performance1_alg2, performance2_alg2):

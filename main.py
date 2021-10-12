@@ -1,17 +1,17 @@
 from plotter import Plotter
-from play_best import run_best_solutions, run_absolute_best_individual
+from play_best import PlayBest
 import numpy as np
 
 
 from experiment import Experiment
-import specialist_1
-import specialist_2
+#import specialist_1
+#import specialist_2
 import generalist_1
 import generalist_2
 
-number_of_runs = 10
-enemy_group1=[]
-enemy_group2=[]
+number_of_runs = 2
+enemy_group1=[2,3,5]
+enemy_group2=[4,6,8]
 
 alg1 = generalist_1.get_algorithm(enemy_group1, f"EA1_group1")
 alg2 = generalist_2.get_algorithm(enemy_group1, f"EA2_group1")
@@ -54,7 +54,7 @@ best_gain_run_ex2 = np.array([])
 best_gain_run_ex3 = np.array([])
 best_gain_run_ex4 = np.array([])
 
-best_sol = 0
+best_sol = -100 #max minimum
 best_sol_str = ""
 
 sol_path_ex1 = ex1.evolutionary_algorithm.experiment_name + "/run"
@@ -62,11 +62,13 @@ sol_path_ex2 = ex2.evolutionary_algorithm.experiment_name + "/run"
 sol_path_ex3 = ex3.evolutionary_algorithm.experiment_name + "/run"
 sol_path_ex4 = ex4.evolutionary_algorithm.experiment_name + "/run"
 
+objj = PlayBest()
+
 for i in range(number_of_runs):
-    temp_gain_avg_ex1 = run_best_solutions(sol_path_ex1 + str(i) + ".txt", ex1.evolutionary_algorithm.experiment_name)
-    temp_gain_avg_ex2 = run_best_solutions(sol_path_ex2 + str(i) + ".txt", ex2.evolutionary_algorithm.experiment_name)
-    temp_gain_avg_ex3 = run_best_solutions(sol_path_ex2 + str(i) + ".txt", ex3.evolutionary_algorithm.experiment_name)
-    temp_gain_avg_ex4 = run_best_solutions(sol_path_ex2 + str(i) + ".txt", ex4.evolutionary_algorithm.experiment_name)
+    temp_gain_avg_ex1 = objj.run_best_solutions(sol_path_ex1 + str(i) + ".txt", "name1")
+    temp_gain_avg_ex2 = objj.run_best_solutions(sol_path_ex2 + str(i) + ".txt", "name2")
+    temp_gain_avg_ex3 = objj.run_best_solutions(sol_path_ex2 + str(i) + ".txt", "name3")
+    temp_gain_avg_ex4 = objj.run_best_solutions(sol_path_ex2 + str(i) + ".txt", "name4")
     best_gain_run_ex1 = np.append(best_gain_run_ex1, temp_gain_avg_ex1)
     best_gain_run_ex2 = np.append(best_gain_run_ex2, temp_gain_avg_ex2)
     best_gain_run_ex3 = np.append(best_gain_run_ex3, temp_gain_avg_ex3)
@@ -89,6 +91,6 @@ Plotter.t_test(best_gain_run_ex1, best_gain_run_ex2, best_gain_run_ex3, best_gai
 Plotter.box_plot(best_gain_run_ex1, best_gain_run_ex2, 1)
 Plotter.box_plot(best_gain_run_ex3, best_gain_run_ex4, 2)
 
-run_absolute_best_individual(best_sol_str)
+objj.run_absolute_best_individual(best_sol_str)
 
 print("Experiment over...")

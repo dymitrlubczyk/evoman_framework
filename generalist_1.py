@@ -14,8 +14,8 @@ from tuner import Tuner
 
 def get_algorithm(enemies, experiment_name):
 
-    population_size = 50
-    generations_number = 7
+    population_size = 5 #50
+    generations_number = 4 #7
 
     Mutation.mutation_ratio = 0.24
     Mutation.reduction = 0.85
