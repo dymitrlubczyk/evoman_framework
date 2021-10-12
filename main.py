@@ -91,6 +91,12 @@ Plotter.t_test(best_gain_run_ex1, best_gain_run_ex2, best_gain_run_ex3, best_gai
 Plotter.box_plot(best_gain_run_ex1, best_gain_run_ex2, 1)
 Plotter.box_plot(best_gain_run_ex3, best_gain_run_ex4, 2)
 
-objj.run_absolute_best_individual(best_sol_str)
+#Init these boys
+player_life = np.array([])
+enemy_life = np.array([])
+
+#Run the best solution
+player_life, enemy_life = objj.run_absolute_best_individual(best_sol_str)
+Plotter.table_plot(player_life, enemy_life)
 
 print("Experiment over...")
