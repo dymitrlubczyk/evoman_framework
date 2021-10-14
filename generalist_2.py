@@ -33,3 +33,6 @@ def get_algorithm(enemies, experiment_name):
                                                    _insertion=Insertion.basic,
                                                    _genome_adaptive=True)
     return evolutionary_algorithm
+
+
+get_algorithm([2, 3, 4], 'karamba').run()

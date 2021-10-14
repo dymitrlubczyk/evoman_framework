@@ -42,6 +42,3 @@ def get_algorithm(enemy_id, experiment_name):
                                                    _mutation_selection=MutationSelection.only_parents,
                                                    _insertion=Insertion.basic)
     return evolutionary_algorithm
-
-
-get_algorithm(4, 'karamba_2').run()

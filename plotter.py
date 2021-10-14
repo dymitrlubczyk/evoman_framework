@@ -92,6 +92,9 @@ class Plotter:
 
         C = stats.ttest_ind(A,B)
         print(C)
+        file = open('Ttestresult.txt', 'w')
+        file.write(C)
+        file.close()
     
     def table_plot(avg_player_life, avg_enemy_life):
         #prepare for lazy plotting code
