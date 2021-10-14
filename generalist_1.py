@@ -38,3 +38,4 @@ def get_algorithm(enemies, experiment_name):
                                                    _mutation_selection=MutationSelection.only_parents,
                                                    _insertion=Insertion.basic)
     return evolutionary_algorithm
+
