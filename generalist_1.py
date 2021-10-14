@@ -13,8 +13,8 @@ from mutation_selection import MutationSelection
 
 def get_algorithm(enemies, experiment_name):
 
-    population_size = 100
-    generations_number = 30
+    population_size = 100 #EXPERIMENT NUMBER = 100
+    generations_number = 30 #EXPERIMENT NUMBER = 30
 
     Mutation.mutation_ratio = 0.24
     Mutation.reduction = 0.85
