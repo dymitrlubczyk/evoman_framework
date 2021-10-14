@@ -1,5 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from scipy import stats
+import pandas as pd
 
 DEBUG = True
 
@@ -53,18 +55,21 @@ class Plotter:
                       marker="o", color="blue", label="Means of means")
         plot.errorbar(array_gens, data_points_max, yerr=standard_deviations_max,
                       marker="o", color="red", label="Means of maxes")
-        plot.legend(loc='upper left')
+        plot.legend(loc='lower right')
         # 4. PLOT PARAMS
         xint = range(num_gens + 1)
         plt.xticks(xint)  # set x-axis "ticks" to only integer values
+        plt.rc('xtick', labelsize = 12)
+        plt.rc('ytick', labelsize = 12)
+        plt.rc('axes', labelsize=16, titlesize=20)
         plt.xlabel('generation')
         plt.ylabel('average fitness')
-        plt.title(f"Enemy{enemy_id}")
+        plt.title(f"Group {enemy_id}")
 
-        plt.savefig(f"LinePlotsAlg{alg_nr}Enemy{enemy_id}.png")
+        plt.savefig(f"LinePlotsAlg{alg_nr}Group{enemy_id}.png")
 
     # Take in the results of the best individuals in the form of either: Gain Measure or Fitness
-    def box_plot(performance1, performance2, enemy_id):
+    def box_plot(performance1, performance2, training_group):
         """
         Plots the mean of the "performance" of the best individual from all runs.
 
@@ -74,7 +79,31 @@ class Plotter:
         # STEP 1: We already have the data the way we want it...
         # STEP 2: Plot data
         ax.boxplot([performance1, performance2], labels=["EA1", "EA2"])
-        plt.ylabel("Fitness")
-        ax.set_title(f"Best individuals against enemy {enemy_id}")
+        plt.ylabel("Gain measure")
+        ax.set_title(f"Best individuals - Training group {training_group}")
+        plt.rc('xtick', labelsize = 12)
+        plt.rc('ytick', labelsize = 12)
+        plt.rc('axes', labelsize=15, titlesize=20)
+        plt.savefig(f"BestIndividualsBoxTrainingGroup{training_group}.png")
 
-        plt.savefig(f"BestIndividualsBoxEnemy{enemy_id}.png")
+    def t_test(performance1_alg1, performance2_alg1, performance1_alg2, performance2_alg2):
+        A=[performance1_alg1, performance2_alg1]
+        B=[performance1_alg2, performance2_alg2]
+
+        C = stats.ttest_ind(A,B)
+        print(C)
+    
+    def table_plot(avg_player_life, avg_enemy_life):
+        #prepare for lazy plotting code
+        fig, ax = plt.subplots()
+        data=[
+            ["Enemy number", "Average player energy points", "Average enemy energy points"]
+        ]
+        for i in range(1,9):
+            indexnr = i-1
+            data.append([f"Enemy {i}", avg_player_life[indexnr], avg_enemy_life[indexnr]])
+        
+        table = ax.table(cellText=data, loc="center")
+        table.set_fontsize(13)
+        ax.axis('off')
+        plt.savefig(f"BestIndividualPoints.png")
