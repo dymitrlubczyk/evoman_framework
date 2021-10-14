@@ -9,13 +9,12 @@ from selection import Selection
 from insertion import Insertion
 from mutation import Mutation
 from mutation_selection import MutationSelection
-from tuner import Tuner
 
 
 def get_algorithm(enemies, experiment_name):
 
-    population_size = 5 #50
-    generations_number = 4 #7
+    population_size = 100
+    generations_number = 30
 
     Mutation.mutation_ratio = 0.24
     Mutation.reduction = 0.85
@@ -30,7 +29,7 @@ def get_algorithm(enemies, experiment_name):
                                                    _generations_number=generations_number,
                                                    _enemies=enemies,
                                                    _hidden_layer_size=10,
-                                                   _init_population=InitPopulation.basic,
+                                                   _init_population=InitPopulation.with_best,
                                                    _fitness=Fitness.niche,
                                                    _selection=Selection.tournament,
                                                    _crossover=Crossover.basic,
@@ -38,4 +37,3 @@ def get_algorithm(enemies, experiment_name):
                                                    _mutation_selection=MutationSelection.only_parents,
                                                    _insertion=Insertion.basic)
     return evolutionary_algorithm
-

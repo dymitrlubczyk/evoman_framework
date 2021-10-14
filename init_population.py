@@ -36,7 +36,7 @@ class InitPopulation:
         enemies_count = 8
 
         for enemy_id in range(enemies_count):
-            for i in range(5):
+            for i in range(3):
                 path = f'enemy{enemy_id+1}/run{i}.txt'
                 if(os.path.isfile(path)):
                     genome = np.loadtxt(path)
@@ -48,9 +48,8 @@ class InitPopulation:
                 else:
                     no_solutions += 1
                     break
-                    
+
         remaining_size = population_size - 5 * (enemies_count - no_solutions)
         population = population.reshape(5 * (enemies_count - no_solutions), genome_length)
 
         return np.append(population, InitPopulation.basic(hidden_layer_size, input_size, remaining_size, genome_adaptive), axis=0)
-
