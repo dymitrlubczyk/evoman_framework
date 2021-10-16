@@ -32,7 +32,6 @@ class InitPopulation:
             genome_length += 1
 
         population = np.array([])
-        no_solutions = 0
         enemies_count = 8
 
         for enemy_id in range(enemies_count):
@@ -45,11 +44,8 @@ class InitPopulation:
                         genome = np.append(genome, np.random.uniform(0, 1))
 
                     population = np.append(population, genome)
-                else:
-                    no_solutions += 1
-                    break
 
-        remaining_size = population_size - 3 * (enemies_count - no_solutions)
-        population = population.reshape(3 * (enemies_count - no_solutions), genome_length)
+        remaining_size = population_size - 3 * enemies_count
+        population = population.reshape(3 * enemies_count, genome_length)
 
         return np.append(population, InitPopulation.basic(hidden_layer_size, input_size, remaining_size, genome_adaptive), axis=0)
