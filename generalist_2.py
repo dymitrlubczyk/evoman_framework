@@ -35,4 +35,3 @@ def get_algorithm(enemies, experiment_name):
     return evolutionary_algorithm
 
 
-get_algorithm([2, 3, 4], 'karamba').run()

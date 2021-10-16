@@ -93,7 +93,7 @@ class Plotter:
         C = stats.ttest_ind(A,B)
         print(C)
         file = open('Ttestresult.txt', 'w')
-        file.write(C)
+        file.write(str(C))
         file.close()
     
     def table_plot(avg_player_life, avg_enemy_life):
@@ -104,9 +104,10 @@ class Plotter:
         ]
         for i in range(1,9):
             indexnr = i-1
-            data.append([f"Enemy {i}", avg_player_life[indexnr], avg_enemy_life[indexnr]])
+            data.append([f"Enemy {i}", round(avg_player_life[indexnr],1), round(avg_enemy_life[indexnr],1)])
         
         table = ax.table(cellText=data, loc="center")
+        
         table.set_fontsize(13)
         ax.axis('off')
-        plt.savefig(f"BestIndividualPoints.png")
+        plt.savefig(f"BestIndividualPoints2.png")
